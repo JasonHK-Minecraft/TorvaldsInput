@@ -47,8 +47,8 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 #===============================================================================
-# Repository
+# ForgeGradle
 #===============================================================================
 
-# Spigradle debug directory
-/debug
+# Run directory
+**/run/

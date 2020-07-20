@@ -1,0 +1,11 @@
+plugins {
+    id "groovy"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //implementation "org.codehaus.groovy:groovy-all:2.0.6"
+}

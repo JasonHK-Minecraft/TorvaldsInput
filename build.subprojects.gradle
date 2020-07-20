@@ -1,0 +1,68 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+
+        maven {
+            name = "Forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+    }
+
+    dependencies {
+        classpath project.forgegradle
+    }
+}
+
+apply plugin: project.forgegradle_plugin
+
+final boolean FORGEGRADLE_2_X = (project.forgegradle as String).contains(":2.")
+final boolean FORGEGRADLE_3_X = (project.forgegradle as String).contains(":3.")
+
+dependencies {
+    if (FORGEGRADLE_3_X)
+    {
+        minecraft "net.minecraftforge:forge:${ project.version_minecraft }-${ project.version_forge }"
+    }
+}
+
+minecraft {
+    if (FORGEGRADLE_2_X)
+    {
+        version = "${ project.version_minecraft }-${ project.version_forge }"
+    }
+
+    if (project.isProperty("version_mappings"))
+    {
+        mappings = project.version_mappings
+    }
+
+    if (FORGEGRADLE_3_X)
+    {
+        runs {
+            client {
+                if (project.isProperty("run_location"))
+                {
+                    workingDirectory project.file("run")
+                }
+                else
+                {
+                    workingDirectory project.file("run")
+                }
+
+                // Recommended logging data for a userdev environment
+                property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+
+                // Recommended logging level for the console
+                property "forge.logging.console.level", "debug"
+            }
+        }
+    }
+    else
+    {
+        if (project.isProperty("run_location"))
+        {
+            runDir "run"
+        }
+    }
+}

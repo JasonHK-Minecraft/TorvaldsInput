@@ -1,5 +1,31 @@
+buildscript {}
+
 plugins {
-    id 'java'
+    id "java"
+}
+
+allprojects {
+    project.metaClass.isProperty = { String name ->
+        return (delegate.hasProperty(name) && !delegate.property(name).empty)
+    }
+}
+
+ext {
+    mod_commonname = "${ rootProject.name }-common"
+
+    TRAVIS = (System.getenv("TRAVIS") == "true")
+
+    Integer build_number = null
+    String build_tag = null
+
+    if (TRAVIS)
+    {
+        build_number = System.getenv("TRAVIS_BUILD_NUMBER") as Integer
+        build_tag = System.getenv("TRAVIS_TAG")
+    }
+
+    MOD_VERSION_SIMPLE = "${ project.version_major }.${ project.version_minor }.${ project.version_patch }"
+    MOD_VERSION_STANDARD = "${ MOD_VERSION_SIMPLE }"
 }
 
 group 'net.jasonhk.minecraft.mods'
