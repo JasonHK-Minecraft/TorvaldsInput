@@ -77,7 +77,7 @@ dependencies {
 
     if (!IS_PROJECT_COMMON)
     {
-        embedOnly(project(":TorvaldsInput-common")) {
+        embedOnly(project(":common")) {
             exclude module: "forge"
         }
     }

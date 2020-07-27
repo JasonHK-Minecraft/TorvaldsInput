@@ -1,10 +1,9 @@
-rootProject.name = 'TorvaldsInput'
+rootProject.name = "TorvaldsInput"
 
-include 'common'
-include '1.12.2'
+include "common"
+include "1.12.2"
 
 rootProject.children.each { project ->
     project.buildFileName = "../build.subprojects.gradle"
-    project.name = "${ rootProject.name }-${ project.name }"
 }
 

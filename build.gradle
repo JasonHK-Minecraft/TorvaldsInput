@@ -13,7 +13,7 @@ allprojects {
 }
 
 ext {
-    PROJECT_COMMON_NAME = "${ rootProject.name }-common"
+    PROJECT_COMMON_NAME = "common"
 
     TRAVIS = (System.getenv("TRAVIS") == "true")
 
