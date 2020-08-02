@@ -1,0 +1,11 @@
+{
+    "package": "net.jasonhk.minecraft.mods.torvaldsinput.gui.mixins",
+    "required": true,
+    "mixins": [],
+    "client": [
+        "MixinGuiTextField"
+    ],
+    "server": [],
+    "refmap": "torvaldsinput.refmap.json",
+    "compatibilityLevel": "JAVA_8"
+}

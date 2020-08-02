@@ -1,0 +1,10 @@
+{
+    "modListVersion": 2,
+    "modList": [
+        {
+            "modid": "torvaldsinput",
+            "name": "TorvaldsInput",
+            "version": "${mod_version}"
+        }
+    ]
+}

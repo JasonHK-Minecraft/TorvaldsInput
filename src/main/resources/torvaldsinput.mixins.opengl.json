@@ -1,0 +1,11 @@
+{
+    "package": "net.jasonhk.minecraft.mods.torvaldsinput.opengl.mixins",
+    "required": true,
+    "mixins": [],
+    "client": [
+        "MixinLinuxEvent",
+        "MixinLinuxKeyboard"
+    ],
+    "server": [],
+    "compatibilityLevel": "JAVA_8"
+}
