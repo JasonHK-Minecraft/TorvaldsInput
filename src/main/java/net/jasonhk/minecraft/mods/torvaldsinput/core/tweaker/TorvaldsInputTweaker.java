@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixins;
 import net.jasonhk.minecraft.mods.torvaldsinput.core.transformers.LaunchClassLoaderTransformer;
 
 @SuppressWarnings("unused")
-public class TorvaldsInputTweaker implements ITweaker
+public final class TorvaldsInputTweaker implements ITweaker
 {
     @Override
     public void acceptOptions(
