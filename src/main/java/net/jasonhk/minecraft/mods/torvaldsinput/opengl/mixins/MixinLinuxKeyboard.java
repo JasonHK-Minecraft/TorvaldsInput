@@ -31,7 +31,7 @@ public abstract class MixinLinuxKeyboard
     private long xic;
 
     /**
-     * The {@link GuiHandler} event handler.
+     * The {@code GuiHandler} event handler.
      */
     @Unique
     private GuiHandler guiHandler;
