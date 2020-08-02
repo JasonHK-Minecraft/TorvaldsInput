@@ -29,7 +29,7 @@ public abstract class MixinLinuxEvent
 
     /**
      * @author Jason Kwok
-     * @reason The logics inside this method needs to be changed completely.
+     * @reason The logic inside this method needs to be replaced completely.
      */
     @Overwrite
     public boolean filterEvent(long window)
