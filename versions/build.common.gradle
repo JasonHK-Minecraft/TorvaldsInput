@@ -1,0 +1,253 @@
+buildscript {
+    def (major, minor, patch) = project.name.tokenize("-")[0].tokenize(".")
+
+    final def minecraftVersion = "${ major }${ minor.padLeft(2, "0") }${ (patch ?: "").padLeft(2, "0") }" as int
+    project.ext.MINECRAFT_VERSION = minecraftVersion
+
+    repositories {
+        mavenCentral()
+        jcenter()
+
+        maven {
+            name = "Forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+
+        maven {
+            name = "SonaType"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+
+        maven {
+            name = "JitPack"
+            url "https://jitpack.io"
+        }
+    }
+
+    dependencies {
+        final def forgeGradleVersion = (minecraftVersion >= 11200) ? "b64de9c" : // 2.3
+                                       (minecraftVersion >= 10904) ? "5bb7a53" : // 2.2
+                                       (minecraftVersion >= 10800) ? "fc1eabc"   // 2.1
+                                                                   : "5fca6853"  // 1.2
+
+        classpath "com.github.ReplayMod:ForgeGradle:${ forgeGradleVersion }:all"
+    }
+}
+
+plugins {
+    id "java"
+    id "com.github.johnrengelman.shadow" version "4.0.4"
+//    id "com.replaymod.preprocess"
+//    id "cross-versioned-mod-plugin"
+}
+
+apply plugin: (MINECRAFT_VERSION >= 10800) ? "net.minecraftforge.gradle.forge"
+                                           : "forge"
+
+ext {
+    FORGE_MCP_SRG = new File(buildDir, "tmp/forgeMcpToSrg/mcp-srg.srg")
+    MIXIN_SRG = new File(buildDir, "tmp/mixinRefMap/mixin.srg")
+    MIXIN_REF_MAP = new File(buildDir, "tmp/mixinRefMap/torvaldsinput.refmap.json")
+}
+
+compileJava {
+    doFirst { MIXIN_REF_MAP.getParentFile().mkdirs() }
+
+    options.compilerArgs += [
+            "-AoutSrgFile=${ MIXIN_SRG.canonicalPath }",
+            "-AoutRefMapFile=${ MIXIN_REF_MAP.canonicalPath }",
+            "-AreobfSrgFile=${ FORGE_MCP_SRG.canonicalPath }"
+    ]
+
+    println(options.compilerArgs.toList())
+}
+
+apply plugin: "com.replaymod.preprocess"
+
+//import com.replaymod.gradle.preprocess.PreprocessTask
+
+preprocess {
+    vars.put("MINECRAFT", MINECRAFT_VERSION)
+
+//    keywords.set([
+//            ".java"  : PreprocessTask.DEFAULT_KEYWORDS,
+//            ".json"  : PreprocessTask.DEFAULT_KEYWORDS,
+//            ".mcmeta": PreprocessTask.DEFAULT_KEYWORDS,
+//            ".cfg"   : PreprocessTask.CFG_KEYWORDS,
+//            ".vert"  : PreprocessTask.DEFAULT_KEYWORDS,
+//            ".frag"  : PreprocessTask.DEFAULT_KEYWORDS,
+//    ])
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+final def MINECRAFT_VERSION_STRING =
+        "${ (int) (MINECRAFT_VERSION / 10000) }.${ (int) (MINECRAFT_VERSION / 100) % 100 }${ (MINECRAFT_VERSION % 100 == 0) ? "" : ".${ MINECRAFT_VERSION % 100 }" }"
+
+group = "net.jasonhk.minecraft.mods"
+archivesBaseName = "TorvaldsInput"
+version = "${ project.name }-${ rootProject.version }"
+
+minecraft {
+    version = [
+            11202: "1.12.2-14.23.0.2486",
+            11102: "1.11.2-13.20.1.2588",
+    ][MINECRAFT_VERSION]
+
+    mappings = [
+            11202: "snapshot_20171003",
+            11102: "snapshot_20161220",
+    ][MINECRAFT_VERSION]
+
+    if (MINECRAFT_VERSION >= 10800)
+    {
+        coreMod = "net.jasonhk.minecraft.mods.torvaldsinput.core.LoadingPlugin"
+    }
+
+    runDir = "../../run"
+}
+
+afterEvaluate {
+    tasks.sourceMainJava.replace "@MOD_VERSION@", project.version
+    tasks.sourceMainJava.replace "@MINECRAFT_VERSION@", "[ $MINECRAFT_VERSION_STRING ]"
+}
+
+repositories {
+    mavenLocal()
+
+    maven {
+        name = "Sponge"
+        url = "http://repo.spongepowered.org/maven/"
+    }
+
+    maven {
+        name = "JitPack"
+        url = "https://jitpack.io"
+        content {
+            includeGroupByRegex "com\\.github\\..*"
+        }
+    }
+}
+
+configurations {
+    // Include dep in fat jar without relocation and, when forge supports it, without exploding (TODO)
+    shade
+    compile.extendsFrom shade
+
+    // Include dep in fat jar with relocation and minimization
+    shadow
+    compile.extendsFrom shadow
+}
+
+dependencies {
+    final def MIXIN_VERSION = (MINECRAFT_VERSION >= 11200) ? "0.8" : "0.7.10-SNAPSHOT"
+    annotationProcessor "org.spongepowered:mixin:${ MIXIN_VERSION }"
+    compileOnly "org.spongepowered:mixin:${ MIXIN_VERSION }"
+    shade("org.spongepowered:mixin:${ MIXIN_VERSION }") {
+        transitive = false
+    }
+
+    annotationProcessor "com.google.code.gson:gson:2.2.4"
+    annotationProcessor "com.google.guava:guava:21.0"
+    annotationProcessor "org.ow2.asm:asm-tree:6.2"
+
+    annotationProcessor "org.projectlombok:lombok:1.18.12"
+    compileOnly "org.projectlombok:lombok:1.18.12"
+}
+
+if (MINECRAFT_VERSION <= 10710)
+{
+    // FG 1.2 adds all MC deps to the compile configuration which we don't want
+    afterEvaluate {
+        // Remove them from the compile and runtime configurations
+        configurations.compile.extendsFrom -= [configurations.minecraft, configurations.
+                minecraftDeps]
+        configurations.runtime.extendsFrom -= [configurations.forgeGradleStartClass]
+
+        // And add them to the source sets instead
+        sourceSets.main.with {
+            compileClasspath += configurations.minecraft + configurations.minecraftDeps
+            runtimeClasspath += configurations.minecraft + configurations.minecraftDeps +
+                                configurations.
+                                        forgeGradleStartClass
+        }
+
+        // Also need to reconfigure the reobf task, so it can properly re-obfuscates inherited members
+        tasks.reobf.obfOutput.all { artifact ->
+            artifact.getFile() // force resolve
+            artifact.classpath += configurations.minecraft + configurations.minecraftDeps
+        }
+    }
+
+    // Test sources aren't preprocessed and I can't be bothered to fix that
+    tasks.compileTestJava.onlyIf { false }
+}
+
+tasks.removeByName("shadowJar") // we want to base our shadowed jar on the reobfJar output, not the sourceSet output
+
+task shadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    from { tasks.jar.archiveFile.get() }
+
+    dependsOn { ((mcVersion >= 10800) ? tasks.reobfJar : tasks.reobf) }
+
+    manifest.inheritFrom tasks.jar.manifest
+
+    from project.configurations.shade
+    configurations = [project.configurations.shadow]
+    exclude "META-INF/INDEX.LIST",
+            "META-INF/*.SF",
+            "META-INF/*.DSA",
+            "META-INF/*.RSA",
+            "module-info.class"
+
+//    dependsOn tasks.configureRelocation
+//    inputs.file(configureRelocationOutput)
+//    doFirst {
+//        configureRelocationOutput.readLines().each { pkg ->
+//            def pkgName = pkg.replace('/', '.')
+//            relocate pkgName, 'com.replaymod.lib.' + pkgName
+//        }
+//    }
+
+    minimize {
+        exclude(dependency('.*spongepowered:mixin:.*'))
+    }
+}
+tasks.assemble.dependsOn tasks.shadowJar
+
+jar {
+    classifier = "raw"
+
+    from files(MIXIN_REF_MAP.canonicalPath)
+    manifest {
+        attributes "Manifest-Version": "1.0",
+                   "Specification-Title": "torvaldsinput",
+                   "Specification-Version": "1",
+                   "Implementation-Title": "TorvaldsInput",
+                   "FMLCorePluginContainsFMLMod": "true",
+                   "TweakClass": "net.jasonhk.minecraft.mods.torvaldsinput.core.tweaker.TorvaldsInputTweaker"
+    }
+}
+
+processResources {
+    inputs.property "mod_version", { project.version }
+
+    filesMatching("mcmod.info") {
+        expand "mod_version": project.version
+    }
+}
+
+task copySrg(type: Copy, dependsOn: "genSrgs") {
+    from { project.tasks.genSrgs.mcpToSrg }
+    into FORGE_MCP_SRG.getParent()
+}
+compileJava.dependsOn copySrg
+
+if (MINECRAFT_VERSION <= 10710) {
+    reobf.addExtraSrgFile MIXIN_SRG
+} else {
+    reobfJar.addSecondarySrgFile MIXIN_SRG
+}
+
+defaultTasks "build"
