@@ -114,7 +114,15 @@ afterEvaluate {
 }
 
 repositories {
-    mavenLocal()
+    maven {
+        name = "Forge"
+        url = "https://files.minecraftforge.net/maven"
+
+        metadataSources {
+            mavenPom()
+            artifact()
+        }
+    }
 
     maven {
         name = "Sponge"
@@ -184,9 +192,11 @@ if (MINECRAFT_VERSION <= 10710)
     tasks.compileTestJava.onlyIf { false }
 }
 
-tasks.removeByName("shadowJar") // we want to base our shadowed jar on the reobfJar output, not the sourceSet output
+//tasks.removeByName("shadowJar") // we want to base our shadowed jar on the reobfJar output, not the sourceSet output
 
-task shadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+//task shadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+task shadowReobfJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+//shadowJar {
     from { tasks.jar.archiveFile.get() }
 
     dependsOn { ((mcVersion >= 10800) ? tasks.reobfJar : tasks.reobf) }
@@ -214,7 +224,8 @@ task shadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar)
         exclude(dependency('.*spongepowered:mixin:.*'))
     }
 }
-tasks.assemble.dependsOn tasks.shadowJar
+//tasks.assemble.dependsOn tasks.shadowJar
+tasks.assemble.dependsOn tasks.shadowReobfJar
 
 jar {
     classifier = "raw"
