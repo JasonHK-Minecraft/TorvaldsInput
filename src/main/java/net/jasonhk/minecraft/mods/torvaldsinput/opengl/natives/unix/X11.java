@@ -1,15 +1,16 @@
 package net.jasonhk.minecraft.mods.torvaldsinput.opengl.natives.unix;
 
-import lombok.val;
-
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
-import com.sun.jna.Structure;
 
 public interface X11 extends com.sun.jna.platform.unix.X11
 {
+    //#if MINECRAFT>=11200
     X11 INSTANCE = Native.loadLibrary("X11", X11.class);
+    //#else
+    //$$ X11 INSTANCE = (X11) Native.loadLibrary("X11", X11.class);
+    //#endif
 
     XIM XOpenIM(Display display, XrmDatabase db, String res_name, String res_class);
 
