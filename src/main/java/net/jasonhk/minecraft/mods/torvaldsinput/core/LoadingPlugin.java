@@ -1,19 +1,15 @@
 package net.jasonhk.minecraft.mods.torvaldsinput.core;
 
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.launchwrapper.Launch;
-import net.minecraft.launchwrapper.LaunchClassLoader;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.Mixins;
-
-import lombok.val;
 
 import net.jasonhk.minecraft.mods.torvaldsinput.core.transformers.LaunchClassLoaderTransformer;
 

@@ -1,8 +1,8 @@
 package net.jasonhk.minecraft.mods.torvaldsinput.opengl;
 
-import lombok.val;
-
 import com.sun.jna.Pointer;
+
+import lombok.val;
 
 import net.jasonhk.minecraft.mods.torvaldsinput.opengl.natives.unix.X11;
 import static net.jasonhk.minecraft.mods.torvaldsinput.opengl.natives.unix.X11.Display;
