@@ -14,6 +14,7 @@ public final class GuiHandler extends AbstractGuiHandler
      */
     private final long xic;
 
+    @Override
     protected void setInputFocus(boolean focused)
     {
         LinuxKeyboard.toggleICFocus(xic, focused);
