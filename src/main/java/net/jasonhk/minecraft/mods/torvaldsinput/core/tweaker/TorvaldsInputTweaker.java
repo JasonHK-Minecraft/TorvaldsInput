@@ -27,7 +27,7 @@ public final class TorvaldsInputTweaker implements ITweaker
         LaunchClassLoaderTransformer.transform(classLoader);
 
         MixinBootstrap.init();
-        Mixins.addConfiguration("torvaldsinput.mixins.opengl.json");
+        Mixins.addConfiguration("torvaldsinput.mixins.input.json");
         Mixins.addConfiguration("torvaldsinput.mixins.gui.json");
     }
 

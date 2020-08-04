@@ -1,4 +1,4 @@
-package net.jasonhk.minecraft.mods.torvaldsinput.opengl.natives.unix;
+package net.jasonhk.minecraft.mods.torvaldsinput.input.natives.unix;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;

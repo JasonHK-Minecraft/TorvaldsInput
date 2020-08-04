@@ -1,12 +1,12 @@
-package net.jasonhk.minecraft.mods.torvaldsinput.opengl;
+package net.jasonhk.minecraft.mods.torvaldsinput.input;
 
 import com.sun.jna.Pointer;
 
 import lombok.val;
 
-import net.jasonhk.minecraft.mods.torvaldsinput.opengl.natives.unix.X11;
-import static net.jasonhk.minecraft.mods.torvaldsinput.opengl.natives.unix.X11.Display;
-import static net.jasonhk.minecraft.mods.torvaldsinput.opengl.natives.unix.X11.XIC;
+import net.jasonhk.minecraft.mods.torvaldsinput.input.natives.unix.X11;
+import static net.jasonhk.minecraft.mods.torvaldsinput.input.natives.unix.X11.Display;
+import static net.jasonhk.minecraft.mods.torvaldsinput.input.natives.unix.X11.XIC;
 
 @SuppressWarnings("JavadocReference")
 public final class LinuxKeyboard

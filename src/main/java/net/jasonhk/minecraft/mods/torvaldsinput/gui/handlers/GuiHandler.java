@@ -3,7 +3,7 @@ package net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import net.jasonhk.minecraft.mods.torvaldsinput.opengl.LinuxKeyboard;
+import net.jasonhk.minecraft.mods.torvaldsinput.input.LinuxKeyboard;
 
 @Data
 @EqualsAndHashCode(callSuper = false)

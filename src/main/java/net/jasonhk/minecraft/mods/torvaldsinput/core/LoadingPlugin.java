@@ -24,7 +24,7 @@ public final class LoadingPlugin implements IFMLLoadingPlugin
             MixinBootstrap.init();
         }
 
-        Mixins.addConfiguration("torvaldsinput.mixins.opengl.json");
+        Mixins.addConfiguration("torvaldsinput.mixins.input.json");
         Mixins.addConfiguration("torvaldsinput.mixins.gui.json");
     }
 

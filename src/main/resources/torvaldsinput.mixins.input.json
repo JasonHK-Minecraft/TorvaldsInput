@@ -1,5 +1,5 @@
 {
-    "package": "net.jasonhk.minecraft.mods.torvaldsinput.opengl.mixins",
+    "package": "net.jasonhk.minecraft.mods.torvaldsinput.input.mixins",
     "required": true,
     "mixins": [],
     "client": [

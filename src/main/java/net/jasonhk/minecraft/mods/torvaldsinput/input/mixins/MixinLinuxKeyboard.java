@@ -1,4 +1,4 @@
-package net.jasonhk.minecraft.mods.torvaldsinput.opengl.mixins;
+package net.jasonhk.minecraft.mods.torvaldsinput.input.mixins;
 
 import net.minecraftforge.common.MinecraftForge;
 
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers.GuiHandler;
-import net.jasonhk.minecraft.mods.torvaldsinput.opengl.LinuxKeyboard;
+import net.jasonhk.minecraft.mods.torvaldsinput.input.LinuxKeyboard;
 
 /**
  * The mixin injector class targeting {@link org.lwjgl.opengl.LinuxKeyboard}.

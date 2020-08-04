@@ -1,14 +1,14 @@
-package net.jasonhk.minecraft.mods.torvaldsinput.opengl.mixins;
+package net.jasonhk.minecraft.mods.torvaldsinput.input.mixins;
 
 import java.nio.ByteBuffer;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.jasonhk.minecraft.mods.torvaldsinput.exceptions.WhyYouInvokeThisShadowMethodException;
 
@@ -25,17 +25,7 @@ public abstract class MixinLinuxEvent
 
     private static boolean enableIME = true;
 
-    private boolean finalEventFiltered = false;
-
-    /**
-     * @author Jason Kwok
-     * @reason The logic inside this method needs to be replaced completely.
-     */
-    @Overwrite
-    public boolean filterEvent(long window)
-    {
-        return finalEventFiltered;
-    }
+    private boolean eventFiltered = false;
 
     @SuppressWarnings("SameParameterValue")
     private boolean filterEventInternal(long window)
@@ -49,9 +39,15 @@ public abstract class MixinLinuxEvent
         throw new WhyYouInvokeThisShadowMethodException();
     }
 
-    @Inject(method = "nextEvent", at = @At(value = "RETURN"))
-    private void inject_nextEvent_RETURN(long display, CallbackInfo callback)
+    @Inject(method = "filterEvent", at = @At(value = "HEAD"), cancellable = true)
+    private void inject_filterEvent_HEAD(CallbackInfoReturnable<Boolean> callback)
     {
-        finalEventFiltered = filterEventInternal(0L);
+        callback.setReturnValue(eventFiltered);
+    }
+
+    @Inject(method = "nextEvent", at = @At(value = "RETURN"))
+    private void inject_nextEvent_RETURN(CallbackInfo callback)
+    {
+        eventFiltered = filterEventInternal(0L);
     }
 }
