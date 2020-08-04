@@ -9,6 +9,9 @@ import net.jasonhk.minecraft.mods.torvaldsinput.opengl.LinuxKeyboard;
 @EqualsAndHashCode(callSuper = false)
 public final class GuiHandler extends AbstractGuiHandler
 {
+    /**
+     * The pointer to the input context of an X client.
+     */
     private final long xic;
 
     protected void setInputFocus(boolean focused)
