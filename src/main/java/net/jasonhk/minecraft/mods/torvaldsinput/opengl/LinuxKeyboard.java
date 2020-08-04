@@ -16,7 +16,7 @@ public final class LinuxKeyboard
     /**
      * Opens an input method, matching the current locale and modifiers specification.
      *
-     * @param displayPointer The pointer to the X display connection.
+     * @param displayPointer The pointer to an X display connection.
      * @return The pointer to the input method.
      *
      * @see org.lwjgl.opengl.LinuxKeyboard#openIM(long)
@@ -35,7 +35,7 @@ public final class LinuxKeyboard
     /**
      * Updates the keyboard focus state the given input context.
      *
-     * @param xicPointer The pointer to the input context.
+     * @param xicPointer The pointer to an input context.
      * @param focused    Whether the input context should receive keyboard focus.
      *
      * @see <a href="https://www.x.org/releases/X11R7.5/doc/man/man3/XSetICFocus.3.html"><code>XSetICFocus(XIC)</code></a>

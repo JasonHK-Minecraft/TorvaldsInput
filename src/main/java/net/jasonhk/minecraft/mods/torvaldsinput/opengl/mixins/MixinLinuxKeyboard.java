@@ -22,7 +22,7 @@ import net.jasonhk.minecraft.mods.torvaldsinput.opengl.LinuxKeyboard;
 public abstract class MixinLinuxKeyboard
 {
     /**
-     * The pointer to the input context of the X client.
+     * The pointer to the input context of an X client.
      *
      * @see org.lwjgl.opengl.LinuxKeyboard#xic
      */
@@ -40,7 +40,7 @@ public abstract class MixinLinuxKeyboard
      * Redirects the invocations of {@link org.lwjgl.opengl.LinuxKeyboard#openIM(long)} to my own
      * {@linkplain LinuxKeyboard#openIM(long) implementation}.
      *
-     * @param display The pointer to the X display connection.
+     * @param display The pointer to an X display connection.
      * @return The pointer to the input method.
      *
      * @see org.lwjgl.opengl.LinuxKeyboard#LinuxKeyboard(long, long)
