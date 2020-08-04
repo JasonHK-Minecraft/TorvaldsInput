@@ -28,7 +28,7 @@ public abstract class MixinLinuxEvent
     private boolean eventFiltered = false;
 
     @SuppressWarnings("SameParameterValue")
-    private boolean filterEventInternal(long window)
+    private boolean filterEventInternal(final long window)
     {
         return (enableIME && nFilterEvent(event_buffer, window));
     }
@@ -40,13 +40,13 @@ public abstract class MixinLinuxEvent
     }
 
     @Inject(method = "filterEvent", at = @At(value = "HEAD"), cancellable = true)
-    private void inject_filterEvent_HEAD(CallbackInfoReturnable<Boolean> callback)
+    private void inject_filterEvent_HEAD(final CallbackInfoReturnable<Boolean> callback)
     {
         callback.setReturnValue(eventFiltered);
     }
 
     @Inject(method = "nextEvent", at = @At(value = "RETURN"))
-    private void inject_nextEvent_RETURN(CallbackInfo callback)
+    private void inject_nextEvent_RETURN(final CallbackInfo callback)
     {
         eventFiltered = filterEventInternal(0L);
     }
