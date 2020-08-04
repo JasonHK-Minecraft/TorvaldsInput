@@ -95,6 +95,7 @@ minecraft {
             11201: "1.12.1-14.22.1.2485",
             11200: "1.12-14.21.1.2443",
             11102: "1.11.2-13.20.1.2588",
+            11100: "1.11-13.19.1.2199",
     ][MINECRAFT_VERSION]
 
     mappings = [
@@ -102,6 +103,7 @@ minecraft {
             11201: "snapshot_20170624",
             11200: "snapshot_20170624",
             11102: "snapshot_20161220",
+            11100: "snapshot_20161220",
     ][MINECRAFT_VERSION]
 
     if (MINECRAFT_VERSION >= 10800)

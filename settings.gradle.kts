@@ -35,6 +35,7 @@ val NativesVariants = listOf(
         "2.0-2.9")
 
 val TorvaldsInputVariants = listOf(
+        "1.11",
         "1.11.2",
         "1.12",
         "1.12.1",
