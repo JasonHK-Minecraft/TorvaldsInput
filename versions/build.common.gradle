@@ -91,12 +91,16 @@ version = "${ project.name }-${ rootProject.version }"
 
 minecraft {
     version = [
-            11202: "1.12.2-14.23.0.2486",
+            11202: "1.12.2-14.23.5.2847",
+            11201: "1.12.1-14.22.1.2485",
+            11200: "1.12-14.21.1.2443",
             11102: "1.11.2-13.20.1.2588",
     ][MINECRAFT_VERSION]
 
     mappings = [
             11202: "snapshot_20171003",
+            11201: "snapshot_20170624",
+            11200: "snapshot_20170624",
             11102: "snapshot_20161220",
     ][MINECRAFT_VERSION]
 
