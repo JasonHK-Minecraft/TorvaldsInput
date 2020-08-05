@@ -13,7 +13,11 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import lombok.SneakyThrows;
 import lombok.val;
 
+//#if MINECRAFT>=11200
 import org.objectweb.asm.tree.ClassNode;
+//#else
+//$$ import org.spongepowered.asm.lib.tree.ClassNode;
+//#endif
 
 public final class InputMixinConfigPlugin implements IMixinConfigPlugin
 {
@@ -31,12 +35,12 @@ public final class InputMixinConfigPlugin implements IMixinConfigPlugin
     }
 
     @Override
-    public void acceptTargets(final Set<String> myTargets, final Set<String> otherTargets) {}
+    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {}
 
     @SuppressWarnings("unchecked")
     @SneakyThrows({ IllegalAccessException.class, NoSuchFieldException.class })
     @Override
-    public void onLoad(final String mixinPackage)
+    public void onLoad(String mixinPackage)
     {
         val field_classLoaderExceptions =
                 LaunchClassLoader.class.getDeclaredField("classLoaderExceptions");
@@ -48,24 +52,24 @@ public final class InputMixinConfigPlugin implements IMixinConfigPlugin
     }
 
     @Override
-    public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName)
+    public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
     {
         return true;
     }
 
     @Override
     public void preApply(
-            final String targetClassName,
-            final ClassNode targetClass,
-            final String mixinClassName,
-            final IMixinInfo mixinInfo)
+            String targetClassName,
+            ClassNode targetClass,
+            String mixinClassName,
+            IMixinInfo mixinInfo)
     {}
 
     @Override
     public void postApply(
-            final String targetClassName,
-            final ClassNode targetClass,
-            final String mixinClassName,
-            final IMixinInfo mixinInfo)
+            String targetClassName,
+            ClassNode targetClass,
+            String mixinClassName,
+            IMixinInfo mixinInfo)
     {}
 }
