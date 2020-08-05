@@ -1,6 +1,5 @@
 package net.jasonhk.minecraft.mods.torvaldsinput.input;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -10,8 +9,6 @@ import net.minecraft.launchwrapper.LaunchClassLoader;
 
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
-
-import org.apache.logging.log4j.LogManager;
 
 import lombok.SneakyThrows;
 import lombok.val;
