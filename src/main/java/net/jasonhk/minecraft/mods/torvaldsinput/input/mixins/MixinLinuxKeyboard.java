@@ -17,7 +17,7 @@ import net.jasonhk.minecraft.mods.torvaldsinput.input.LinuxKeyboard;
 /**
  * The mixin injector class targeting {@link org.lwjgl.opengl.LinuxKeyboard}.
  */
-@SuppressWarnings("JavadocReference")
+@SuppressWarnings({ "JavadocReference", "UnusedMixin" })
 @Mixin(targets = "org.lwjgl.opengl.LinuxKeyboard", remap = false)
 public abstract class MixinLinuxKeyboard
 {

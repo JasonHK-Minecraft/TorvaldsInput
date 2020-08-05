@@ -15,7 +15,7 @@ import net.jasonhk.minecraft.mods.torvaldsinput.exceptions.WhyYouInvokeThisShado
 /**
  * The mixin injector class targeting {@link org.lwjgl.opengl.LinuxEvent}.
  */
-@SuppressWarnings("JavadocReference")
+@SuppressWarnings({ "JavadocReference", "UnusedMixin" })
 @Mixin(targets = "org.lwjgl.opengl.LinuxEvent", remap = false)
 public abstract class MixinLinuxEvent
 {
