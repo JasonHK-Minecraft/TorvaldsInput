@@ -17,7 +17,8 @@ public final class TorvaldsInputTweaker implements ITweaker
             final List<String> args,
             final File gameDir,
             final File assetsDir,
-            final String profile) {}
+            final String profile)
+    {}
 
     @Override
     public void injectIntoClassLoader(final LaunchClassLoader classLoader)
