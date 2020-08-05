@@ -53,7 +53,7 @@ public abstract class MixinLinuxKeyboard
     }
 
     /**
-     * Injects the codes to initialise and register the {@link GuiHandler} event handler.
+     * Injects the codes to initialise and register the {@link #guiHandler GuiHandler} event handler.
      *
      * @param callback The information on the method call.
      *
@@ -70,7 +70,7 @@ public abstract class MixinLinuxKeyboard
     }
 
     /**
-     * Injects the codes to unregister and remove the {@link GuiHandler} event handler.
+     * Injects the codes to unregister and remove the {@link #guiHandler GuiHandler} event handler.
      *
      * @param callback The information on the method call.
      *
