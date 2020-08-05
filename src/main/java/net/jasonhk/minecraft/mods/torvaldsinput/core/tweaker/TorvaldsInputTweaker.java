@@ -9,8 +9,6 @@ import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.Mixins;
 
-import net.jasonhk.minecraft.mods.torvaldsinput.core.transformers.LaunchClassLoaderTransformer;
-
 @SuppressWarnings("unused")
 public final class TorvaldsInputTweaker implements ITweaker
 {

@@ -11,8 +11,6 @@ import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.Mixins;
 
-import net.jasonhk.minecraft.mods.torvaldsinput.core.transformers.LaunchClassLoaderTransformer;
-
 public final class LoadingPlugin implements IFMLLoadingPlugin
 {
     public LoadingPlugin()
