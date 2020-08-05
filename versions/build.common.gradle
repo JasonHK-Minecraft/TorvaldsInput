@@ -110,6 +110,11 @@ minecraft {
     }
 
     runDir = "../../run"
+
+    clientJvmArgs += [
+            "-Dforge.logging.console.level=ALL",
+            "-Dforge.logging.markers=SCAN,REGISTRIES,REGISTRYDUMP"
+    ]
 }
 
 afterEvaluate {
