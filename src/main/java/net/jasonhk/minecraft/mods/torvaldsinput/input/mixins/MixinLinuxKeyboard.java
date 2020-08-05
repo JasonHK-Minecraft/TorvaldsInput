@@ -41,7 +41,7 @@ public abstract class MixinLinuxKeyboard
      * {@linkplain LinuxKeyboard#openIM(long) implementation}.
      *
      * @param display The pointer to an X display connection.
-     * @return The pointer to the input method.
+     * @return The pointer to an X input method.
      *
      * @see org.lwjgl.opengl.LinuxKeyboard#LinuxKeyboard(long, long)
      */
