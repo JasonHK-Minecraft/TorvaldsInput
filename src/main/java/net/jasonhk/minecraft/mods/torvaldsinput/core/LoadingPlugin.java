@@ -17,8 +17,6 @@ public final class LoadingPlugin implements IFMLLoadingPlugin
 {
     public LoadingPlugin()
     {
-        LaunchClassLoaderTransformer.transform(Launch.classLoader);
-
         if (Launch.blackboard.get("fml.deobfuscatedEnvironment") != Boolean.FALSE)
         {
             MixinBootstrap.init();
