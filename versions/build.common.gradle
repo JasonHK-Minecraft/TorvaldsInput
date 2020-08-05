@@ -58,8 +58,6 @@ compileJava {
             "-AoutRefMapFile=${ MIXIN_REF_MAP.canonicalPath }",
             "-AreobfSrgFile=${ FORGE_MCP_SRG.canonicalPath }"
     ]
-
-    println(options.compilerArgs.toList())
 }
 
 apply plugin: "com.replaymod.preprocess"
