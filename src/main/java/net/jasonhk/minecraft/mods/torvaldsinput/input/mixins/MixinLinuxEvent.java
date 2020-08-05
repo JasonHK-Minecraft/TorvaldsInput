@@ -36,19 +36,6 @@ public abstract class MixinLinuxEvent
     private boolean eventFiltered = false;
 
     /**
-     * Checks whether some X input method has filtered {@linkplain #event_buffer this X event}.
-     *
-     * @param window The pointer to an X window for which the filter is to be applied.
-     * @return Returns {@code true} if some X input method has filtered the X event, {@code false}
-     *         otherwise.
-     */
-    @SuppressWarnings("SameParameterValue")
-    private boolean filterEventInternal(final long window)
-    {
-        return (enableIME && nFilterEvent(event_buffer, window));
-    }
-
-    /**
      * Checks whether some X input method has filtered the given X event.
      *
      * @param event_buffer The X event to filter.
@@ -90,6 +77,6 @@ public abstract class MixinLinuxEvent
     @Inject(method = "nextEvent", at = @At(value = "RETURN"))
     private void inject_nextEvent_RETURN(final CallbackInfo callback)
     {
-        eventFiltered = filterEventInternal(0L);
+        eventFiltered = (enableIME && nFilterEvent(event_buffer, 0L));
     }
 }
