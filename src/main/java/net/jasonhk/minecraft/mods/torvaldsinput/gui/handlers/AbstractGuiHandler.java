@@ -7,7 +7,7 @@ import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import lombok.val;
+import lombok.var;
 
 import net.jasonhk.minecraft.mods.torvaldsinput.gui.events.GuiTextFieldFocusChangeEvent;
 
@@ -18,7 +18,7 @@ public abstract class AbstractGuiHandler
     {
         boolean canInput;
 
-        val gui = event.getGui();
+        var gui = event.getGui();
         if (gui == null)
         {
             canInput = false;

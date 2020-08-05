@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 import lombok.SneakyThrows;
-import lombok.val;
+import lombok.var;
 
 //#if MINECRAFT>=11200
 import org.objectweb.asm.tree.ClassNode;
@@ -42,11 +42,11 @@ public final class InputMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public void onLoad(String mixinPackage)
     {
-        val field_classLoaderExceptions =
+        var field_classLoaderExceptions =
                 LaunchClassLoader.class.getDeclaredField("classLoaderExceptions");
         field_classLoaderExceptions.setAccessible(true);
 
-        val classLoaderExceptions =
+        var classLoaderExceptions =
                 (Set<String>) field_classLoaderExceptions.get(Launch.classLoader);
         classLoaderExceptions.remove("org.lwjgl.");
     }

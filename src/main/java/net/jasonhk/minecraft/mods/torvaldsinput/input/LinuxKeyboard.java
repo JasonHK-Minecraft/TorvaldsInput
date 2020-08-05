@@ -2,7 +2,7 @@ package net.jasonhk.minecraft.mods.torvaldsinput.input;
 
 import com.sun.jna.Pointer;
 
-import lombok.val;
+import lombok.var;
 
 import net.jasonhk.minecraft.mods.torvaldsinput.input.natives.unix.X11;
 import static net.jasonhk.minecraft.mods.torvaldsinput.input.natives.unix.X11.Display;
@@ -23,12 +23,12 @@ public final class LinuxKeyboard
      * @see <a href="https://www.x.org/releases/X11R7.7/doc/man/man3/XOpenIM.3.xhtml">
      *         <code>XOpenIM(Display*, XrmDatabase, char*, char*)</code></a>
      */
-    public static long openIM(final long displayPointer)
+    public static long openIM(long displayPointer)
     {
-        val display = new Display();
+        var display = new Display();
         display.setPointer(new Pointer(displayPointer));
 
-        val xim = _X11.XOpenIM(display, null, null, null);
+        var xim = _X11.XOpenIM(display, null, null, null);
         return Pointer.nativeValue(xim.getPointer());
     }
 
@@ -43,9 +43,9 @@ public final class LinuxKeyboard
      * @see <a href="https://www.x.org/releases/X11R7.5/doc/man/man3/XSetICFocus.3.html">
      *         <code>XUnsetICFocus(XIC)</code></a>
      */
-    public static void toggleICFocus(final long xicPointer, final boolean focused)
+    public static void toggleICFocus(long xicPointer, boolean focused)
     {
-        val xic = new XIC(Pointer.createConstant(xicPointer));
+        var xic = new XIC(Pointer.createConstant(xicPointer));
 
         if (focused)
         {

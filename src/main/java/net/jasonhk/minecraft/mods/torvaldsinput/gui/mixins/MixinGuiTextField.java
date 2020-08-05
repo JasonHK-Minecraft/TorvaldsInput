@@ -26,7 +26,7 @@ public abstract class MixinGuiTextField
      * @see net.minecraft.client.gui.GuiTextField#setFocused(boolean)
      */
     @Inject(method = "setFocused", at = @At(value = "RETURN"))
-    private void inject_setFocused_RETURN(final boolean focused, final CallbackInfo callback)
+    private void inject_setFocused_RETURN(boolean focused, CallbackInfo callback)
     {
         MinecraftForge.EVENT_BUS.post(new GuiTextFieldFocusChangeEvent(focused));
     }

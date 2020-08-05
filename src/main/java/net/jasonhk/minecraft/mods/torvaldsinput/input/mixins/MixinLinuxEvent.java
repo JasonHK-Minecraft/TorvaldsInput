@@ -61,7 +61,7 @@ public abstract class MixinLinuxEvent
      * @see org.lwjgl.opengl.LinuxEvent#filterEvent(long)
      */
     @Inject(method = "filterEvent", at = @At(value = "HEAD"), cancellable = true)
-    private void inject_filterEvent_HEAD(final CallbackInfoReturnable<Boolean> callback)
+    private void inject_filterEvent_HEAD(CallbackInfoReturnable<Boolean> callback)
     {
         callback.setReturnValue(eventFiltered);
     }
@@ -75,7 +75,7 @@ public abstract class MixinLinuxEvent
      * @see org.lwjgl.opengl.LinuxEvent#nextEvent(long)
      */
     @Inject(method = "nextEvent", at = @At(value = "RETURN"))
-    private void inject_nextEvent_RETURN(final CallbackInfo callback)
+    private void inject_nextEvent_RETURN(CallbackInfo callback)
     {
         eventFiltered = (enableIME && nFilterEvent(event_buffer, 0L));
     }

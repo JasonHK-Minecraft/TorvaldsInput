@@ -25,7 +25,7 @@ public final class LoadingPlugin implements IFMLLoadingPlugin
     }
 
     @Override
-    public void injectData(final Map<String, Object> map) {}
+    public void injectData(Map<String, Object> map) {}
 
     @Nullable
     @Override

@@ -21,7 +21,7 @@ public final class TorvaldsInputTweaker implements ITweaker
     {}
 
     @Override
-    public void injectIntoClassLoader(final LaunchClassLoader classLoader)
+    public void injectIntoClassLoader(LaunchClassLoader classLoader)
     {
         MixinBootstrap.init();
         Mixins.addConfiguration("torvaldsinput.mixins.input.json");

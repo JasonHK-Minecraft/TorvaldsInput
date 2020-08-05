@@ -47,7 +47,7 @@ public abstract class MixinLinuxKeyboard
      */
     @Redirect(method = "<init>",
               at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/LinuxKeyboard;openIM(J)J"))
-    private long redirect_init_INVOKE_openIM(final long display)
+    private long redirect_init_INVOKE_openIM(long display)
     {
         return LinuxKeyboard.openIM(display);
     }
@@ -60,7 +60,7 @@ public abstract class MixinLinuxKeyboard
      * @see org.lwjgl.opengl.LinuxKeyboard#LinuxKeyboard(long, long)
      */
     @Inject(method = "<init>", at = @At(value = "RETURN"))
-    private void inject_init_RETURN(final CallbackInfo callback)
+    private void inject_init_RETURN(CallbackInfo callback)
     {
         if (xic != 0)
         {
@@ -77,7 +77,7 @@ public abstract class MixinLinuxKeyboard
      * @see org.lwjgl.opengl.LinuxKeyboard#destroy(long)
      */
     @Inject(method = "destroy", at = @At(value = "HEAD"))
-    private void inject_destroy_HEAD(final CallbackInfo callback)
+    private void inject_destroy_HEAD(CallbackInfo callback)
     {
         if (guiHandler != null)
         {
