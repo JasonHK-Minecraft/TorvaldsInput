@@ -17,17 +17,19 @@ import net.jasonhk.minecraft.mods.torvaldsinput.gui.events.GuiTextFieldFocusChan
 @Mixin(GuiTextField.class)
 public abstract class MixinGuiTextField
 {
-    /**
-     * Injects the codes to post a {@link GuiTextFieldFocusChangeEvent}.
-     *
-     * @param focused  The focus state of this {@link GuiTextField}.
-     * @param callback The information on the method call.
-     *                 
-     * @see net.minecraft.client.gui.GuiTextField#setFocused(boolean)
-     */
-    @Inject(method = "setFocused", at = @At(value = "RETURN"))
-    private void inject_setFocused_RETURN(boolean focused, CallbackInfo callback)
-    {
-        MinecraftForge.EVENT_BUS.post(new GuiTextFieldFocusChangeEvent(focused));
-    }
+    //#if MINECRAFT<11300
+    //$$ /**
+    //$$  * Injects the codes to post a {@link GuiTextFieldFocusChangeEvent}.
+    //$$  *
+    //$$  * @param focused  The focus state of this {@link GuiTextField}.
+    //$$  * @param callback The information on the method call.
+    //$$  *                 
+    //$$  * @see net.minecraft.client.gui.GuiTextField#setFocused(boolean)
+    //$$  */
+    //$$ @Inject(method = "setFocused", at = @At(value = "RETURN"))
+    //$$ private void inject_setFocused_RETURN(boolean focused, CallbackInfo callback)
+    //$$ {
+    //$$     MinecraftForge.EVENT_BUS.post(new GuiTextFieldFocusChangeEvent(focused));
+    //$$ }
+    //#endif
 }

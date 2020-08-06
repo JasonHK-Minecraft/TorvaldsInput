@@ -1,12 +1,21 @@
+import dev.jasonhk.gradle.minecraft.mod.variant.ModLoader
 import dev.jasonhk.gradle.minecraft.mod.variant.ModVariant
 
 buildscript {
     def variant = new ModVariant(project.name)
+    def minecraftVersion = variant.version
 
     project.ext {
         VARIANT = variant
-        MINECRAFT_VERSION = variant.version
-//        IS_FORGE = isForge
+        MINECRAFT = variant.version
+
+        IS_LOADER_FORGE = variant.isLoaderForge()
+        IS_LOADER_FABRIC = variant.isLoaderFabric()
+
+        IS_FORGEGRADLE = false
+        IS_FORGEGRADLE_1 = false
+        IS_FORGEGRADLE_2 = false
+        IS_FORGEGRADLE_3 = false
     }
 
     repositories {
@@ -30,12 +39,48 @@ buildscript {
     }
 
     dependencies {
-        final def forgeGradleVersion = (variant.version.integer >= 11200) ? "b64de9c" : // 2.3
-                                       (variant.version.integer >= 10904) ? "5bb7a53" : // 2.2
-                                       (variant.version.integer >= 10800) ? "fc1eabc"   // 2.1
-                                                                          : "5fca6853"  // 1.2
+        if (variant.isLoaderForge())
+        {
+            // Use ForgeGradle to build Forge Mod Loader variants of this mod.
 
-        classpath "com.github.ReplayMod:ForgeGradle:${ forgeGradleVersion }:all"
+            project.ext.IS_FORGEGRADLE = true
+
+            if (minecraftVersion.integer >= 11300)
+            {
+                project.ext.IS_FORGEGRADLE_3 = true
+
+                classpath("net.minecraftforge.gradle:ForgeGradle:3.+") {
+                    exclude group: "trove", module: "trove"
+                }
+            }
+            else if (minecraftVersion.integer >= 10800)
+            {
+                // Minecraft 1.13 older was not supported by ForgeGradle 3.
+                //
+                // Use Replay Mod's fork of ForgeGradle 2.1, 2.2 and 2.3, which support newer
+                // versions of Gradle.
+
+                project.ext.IS_FORGEGRADLE_2 = true
+
+                final def forgeGradleVersion =
+                        (variant.version.integer >= 11200) ? "b64de9c" : // ForgeGradle 2.3
+                        (variant.version.integer >= 10904) ? "5bb7a53"   // ForgeGradle 2.2
+                                                           : "fc1eabc"   // ForgeGradle 2.1
+
+                classpath "com.github.ReplayMod:ForgeGradle:${ forgeGradleVersion }:all"
+            }
+            else
+            {
+                // Minecraft 1.8 older was not supported by ForgeGradle 2.
+                //
+                // Use Replay Mod's fork of ForgeGradle 1.2, which support newer  versions of
+                // Gradle.
+
+                project.ext.IS_FORGEGRADLE_1 = true
+
+                classpath "com.github.ReplayMod:ForgeGradle:5fca6853:all" // ForgeGradle 1.2
+            }
+        }
     }
 }
 
@@ -46,8 +91,13 @@ plugins {
 //    id "cross-versioned-mod-plugin"
 }
 
-apply plugin: (MINECRAFT_VERSION.integer >= 10800) ? "net.minecraftforge.gradle.forge"
-                                                   : "forge"
+if (IS_FORGEGRADLE)
+{
+    // Applies ForgeGradle to the project.
+    apply plugin: (IS_FORGEGRADLE_3) ? "net.minecraftforge.gradle" :
+                  (IS_FORGEGRADLE_2) ? "net.minecraftforge.gradle.forge"
+                                     : "forge"
+}
 
 ext {
     FORGE_MCP_SRG = new File(buildDir, "tmp/forgeMcpToSrg/mcp-srg.srg")
@@ -70,7 +120,7 @@ apply plugin: "com.replaymod.preprocess"
 //import com.replaymod.gradle.preprocess.PreprocessTask
 
 preprocess {
-    vars.put("MINECRAFT", MINECRAFT_VERSION.integer)
+    vars.put("MINECRAFT", MINECRAFT.integer)
 
 //    keywords.set([
 //            ".java"  : PreprocessTask.DEFAULT_KEYWORDS,
@@ -85,24 +135,40 @@ preprocess {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+if (MINECRAFT.integer >= 11300)
+{
+    sourceSets {
+        api
+    }
+}
+
 group = "net.jasonhk.minecraft.mods"
 archivesBaseName = "TorvaldsInput"
 version = "${ project.name }-${ rootProject.version }"
 
 minecraft {
-    version = [
-            11202: "1.12.2-14.23.5.2847",
-            11201: "1.12.1-14.22.1.2485",
-            11200: "1.12-14.21.1.2443",
-            11102: "1.11.2-13.20.1.2588",
-            11100: "1.11-13.19.1.2199",
-            11002: "1.10.2-12.18.3.2511",
-            11000: "1.10-12.18.0.2000-1.10.0",
-            10904: "1.9.4-12.17.0.2051",
-            10900: "1.9-12.16.1.1938-1.9.0",
-    ][MINECRAFT_VERSION.integer]
+    // The version of Minecraft Forge used during development, for each Minecraft versions
+    // supported.
+    //
+    // NOTE: Please set the values in the `dependencies` closure when you're defining ForgeGradle 3
+    // compatible Minecraft Forge versions.
+    if (!IS_FORGEGRADLE_3)
+    {
+        version = [
+                11202: "1.12.2-14.23.5.2847",
+                11201: "1.12.1-14.22.1.2485",
+                11200: "1.12-14.21.1.2443",
+                11102: "1.11.2-13.20.1.2588",
+                11100: "1.11-13.19.1.2199",
+                11002: "1.10.2-12.18.3.2511",
+                11000: "1.10-12.18.0.2000-1.10.0",
+                10904: "1.9.4-12.17.0.2051",
+                10900: "1.9-12.16.1.1938-1.9.0",
+        ][MINECRAFT.integer]
+    }
 
     mappings = [
+            11302: "snapshot_20180921-1.13",
             11202: "snapshot_20171003",
             11201: "snapshot_20170624",
             11200: "snapshot_20170624",
@@ -112,24 +178,46 @@ minecraft {
             11000: "snapshot_20160518",
             10904: "snapshot_20160518",
             10900: "snapshot_20160312",
-    ][MINECRAFT_VERSION.integer]
+    ][MINECRAFT.integer]
 
-    if (MINECRAFT_VERSION.integer >= 10800)
+    if (IS_FORGEGRADLE_3)
     {
-        coreMod = "net.jasonhk.minecraft.mods.torvaldsinput.core.LoadingPlugin"
+        runs {
+            client {
+                workingDirectory rootProject.file("run")
+
+                singleInstance = true
+
+                // Recommended logging data for a userdev environment.
+                property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+                // Recommended logging level for the console.
+                property "forge.logging.console.level", "debug"
+
+                mods {
+                    torvaldsinput {
+                        source sourceSets.main
+                    }
+                }
+            }
+        }
     }
+    else
+    {
+        runDir = "../../run"
 
-    runDir = "../../run"
-
-    clientJvmArgs += [
-            "-Dforge.logging.console.level=ALL",
-            "-Dforge.logging.markers=SCAN,REGISTRIES,REGISTRYDUMP"
-    ]
+        if (MINECRAFT.integer >= 10800)
+        {
+            coreMod = "net.jasonhk.minecraft.mods.torvaldsinput.core.LoadingPlugin"
+        }
+    }
 }
 
 afterEvaluate {
-    tasks.sourceMainJava.replace "@MOD_VERSION@", project.version
-    tasks.sourceMainJava.replace "@MINECRAFT_VERSION@", "[ ${ MINECRAFT_VERSION.string } ]"
+    if (MINECRAFT.integer < 11300)
+    {
+        tasks.sourceMainJava.replace "@MOD_VERSION@", project.version
+        tasks.sourceMainJava.replace "@MINECRAFT_VERSION@", "[ ${ MINECRAFT.string } ]"
+    }
 }
 
 repositories {
@@ -168,22 +256,44 @@ configurations {
 }
 
 dependencies {
-    final def MIXIN_VERSION = (MINECRAFT_VERSION.integer >= 11200) ? "0.8" : "0.7.10-SNAPSHOT"
-    annotationProcessor "org.spongepowered:mixin:${ MIXIN_VERSION }"
-    compileOnly "org.spongepowered:mixin:${ MIXIN_VERSION }"
-    shade("org.spongepowered:mixin:${ MIXIN_VERSION }") {
-        transitive = false
+    // The version of Minecraft Forge used during development, for each Minecraft versions
+    // supported.
+    //
+    // NOTE: Please set the values in the `minecraft` closure when you're defining ForgeGradle 3
+    // compatible Minecraft Forge versions.
+    if (IS_LOADER_FORGE && IS_FORGEGRADLE_3)
+    {
+        def forgeVersion = [
+                11302: "1.13.2-25.0.219"
+        ][MINECRAFT.integer]
+
+        minecraft "net.minecraftforge:forge:${ forgeVersion }"
     }
 
-    annotationProcessor "com.google.code.gson:gson:2.2.4"
-    annotationProcessor "com.google.guava:guava:21.0"
-    annotationProcessor "org.ow2.asm:asm-tree:6.2"
+    if (IS_LOADER_FORGE)
+    {
+        // Mixin 0.8 is not compatible with Minecraft 1.11.2 or older.
+        final def mixinVersion = (MINECRAFT.integer >= 11200) ? "0.8"
+                                                              : "0.7.10-SNAPSHOT"
+
+        annotationProcessor "org.spongepowered:mixin:${ mixinVersion }"
+        compileOnly "org.spongepowered:mixin:${ mixinVersion }"
+        shade("org.spongepowered:mixin:${ mixinVersion }") {
+            // Dependencies should all be bundled with Minecraft.
+            transitive = false
+        }
+
+        // The annotation processor of Mixin needed these to work.
+        annotationProcessor "com.google.code.gson:gson:2.2.4"
+        annotationProcessor "com.google.guava:guava:21.0"
+        annotationProcessor "org.ow2.asm:asm-tree:6.2"
+    }
 
     annotationProcessor "org.projectlombok:lombok:1.18.12"
     compileOnly "org.projectlombok:lombok:1.18.12"
 }
 
-if (MINECRAFT_VERSION.integer <= 10710)
+if (MINECRAFT.integer <= 10710)
 {
     // FG 1.2 adds all MC deps to the compile configuration which we don't want
     afterEvaluate {
@@ -211,14 +321,11 @@ if (MINECRAFT_VERSION.integer <= 10710)
     tasks.compileTestJava.onlyIf { false }
 }
 
-//tasks.removeByName("shadowJar") // we want to base our shadowed jar on the reobfJar output, not the sourceSet output
 
-//task shadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
 task shadowReobfJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-//shadowJar {
     from { tasks.jar.archiveFile.get() }
 
-    dependsOn { ((MINECRAFT_VERSION.integer >= 10800) ? tasks.reobfJar : tasks.reobf) }
+    dependsOn { ((MINECRAFT.integer >= 10800) ? tasks.reobfJar : tasks.reobf) }
 
     manifest.inheritFrom tasks.jar.manifest
 
@@ -243,7 +350,6 @@ task shadowReobfJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.Shado
         exclude(dependency('.*spongepowered:mixin:.*'))
     }
 }
-//tasks.assemble.dependsOn tasks.shadowJar
 tasks.assemble.dependsOn tasks.shadowReobfJar
 
 jar {
@@ -268,19 +374,61 @@ processResources {
     }
 }
 
-task copySrg(type: Copy, dependsOn: "genSrgs") {
-    from { project.tasks.genSrgs.mcpToSrg }
-    into FORGE_MCP_SRG.getParent()
-}
-compileJava.dependsOn copySrg
+if (IS_FORGEGRADLE)
+{
+    if (IS_FORGEGRADLE_3)
+    {
+        task copySrg(dependsOn: "createMcpToSrg") {
+            doFirst { FORGE_MCP_SRG.getParentFile().mkdirs() }
 
-if (MINECRAFT_VERSION.integer <= 10710)
-{
-    reobf.addExtraSrgFile MIXIN_SRG
-}
-else
-{
-    reobfJar.addSecondarySrgFile MIXIN_SRG
+            doLast {
+                def tsrg = file(project.tasks.createMcpToSrg.output).readLines()
+                def srg = []
+                def cls = ""
+                for (def line : tsrg)
+                {
+                    if (line[0] != "\t")
+                    {
+                        srg.add("CL: " + line)
+                        cls = line.split(" ")[0]
+                    }
+                    else
+                    {
+                        def parts = line.substring(1).split(" ")
+                        if (line.contains("("))
+                        {
+                            srg.add(
+                                    "MD: " + cls + "/" + parts[0] + " " + parts[1] + " " + cls + "/" +
+                                    parts[2] + " " + parts[1])
+                        }
+                        else
+                        {
+                            srg.add("FD: " + cls + "/" + parts[0] + " " + cls + "/" + parts[1])
+                        }
+                    }
+                }
+                FORGE_MCP_SRG.write(srg.join('\n'))
+            }
+        }
+    }
+    else
+    {
+        task copySrg(type: Copy, dependsOn: "genSrgs") {
+            from { project.tasks.genSrgs.mcpToSrg }
+            into FORGE_MCP_SRG.getParent()
+        }
+
+        if (IS_FORGEGRADLE_2)
+        {
+            reobfJar.addSecondarySrgFile MIXIN_SRG
+        }
+        else if (IS_FORGEGRADLE_1)
+        {
+            reobf.addExtraSrgFile MIXIN_SRG
+        }
+    }
+
+    compileJava.dependsOn "copySrg"
 }
 
 defaultTasks "build"

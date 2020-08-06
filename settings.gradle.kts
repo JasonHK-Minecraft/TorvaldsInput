@@ -43,7 +43,8 @@ val TorvaldsInputVariants = listOf(
         "1.11.2",
         "1.12",
         "1.12.1",
-        "1.12.2")
+        "1.12.2",
+        "1.13.2")
 
 //include(":natives")
 //project(":natives").apply {

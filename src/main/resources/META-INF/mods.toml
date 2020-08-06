@@ -1,0 +1,7 @@
+modLoader="javafml"
+loaderVersion="[25,)"
+
+[[mods]]
+modId="torvaldsinput"
+displayName="TorvaldsInput"
+version="${file.jarVersion}"

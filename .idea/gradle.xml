@@ -17,6 +17,9 @@
             <option value="$PROJECT_DIR$/variants/1.12" />
             <option value="$PROJECT_DIR$/variants/1.12.1" />
             <option value="$PROJECT_DIR$/variants/1.12.2" />
+            <option value="$PROJECT_DIR$/variants/1.13.2" />
+            <option value="$PROJECT_DIR$/variants/1.9" />
+            <option value="$PROJECT_DIR$/variants/1.9.4" />
           </set>
         </option>
       </GradleProjectSettings>

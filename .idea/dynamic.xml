@@ -19,12 +19,60 @@
                     <option name="myName" value="FORGE_MCP_SRG" />
                   </DPropertyElement>
                   <DPropertyElement>
+                    <option name="name" value="MINECRAFT" />
+                    <option name="static" value="false" />
+                    <option name="type" value="dev.jasonhk.gradle.minecraft.mod.variant.MinecraftVersion" />
+                    <option name="myType" value="dev.jasonhk.gradle.minecraft.mod.variant.MinecraftVersion" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="MINECRAFT" />
+                  </DPropertyElement>
+                  <DPropertyElement>
                     <option name="name" value="MINECRAFT_VERSION" />
                     <option name="static" value="false" />
-                    <option name="type" value="java.lang.Integer" />
-                    <option name="myType" value="java.lang.Integer" />
+                    <option name="type" value="dev.jasonhk.gradle.minecraft.mod.variant.MinecraftVersion" />
+                    <option name="myType" value="dev.jasonhk.gradle.minecraft.mod.variant.MinecraftVersion" />
                     <option name="myStatic" value="false" />
                     <option name="myName" value="MINECRAFT_VERSION" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="IS_FORGEGRADLE" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.Boolean" />
+                    <option name="myType" value="java.lang.Boolean" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="IS_FORGEGRADLE" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="IS_FORGEGRADLE_1" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.Boolean" />
+                    <option name="myType" value="java.lang.Boolean" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="IS_FORGEGRADLE_1" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="IS_FORGEGRADLE_2" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.Boolean" />
+                    <option name="myType" value="java.lang.Boolean" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="IS_FORGEGRADLE_2" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="IS_FORGEGRADLE_3" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.Boolean" />
+                    <option name="myType" value="java.lang.Boolean" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="IS_FORGEGRADLE_3" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="IS_LOADER_FORGE" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.Boolean" />
+                    <option name="myType" value="java.lang.Boolean" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="IS_LOADER_FORGE" />
                   </DPropertyElement>
                   <DPropertyElement>
                     <option name="name" value="MIXIN_REF_MAP" />
@@ -41,6 +89,14 @@
                     <option name="myType" value="java.io.File" />
                     <option name="myStatic" value="false" />
                     <option name="myName" value="MIXIN_SRG" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="VARIANT" />
+                    <option name="static" value="false" />
+                    <option name="type" value="dev.jasonhk.gradle.minecraft.mod.variant.ModVariant" />
+                    <option name="myType" value="dev.jasonhk.gradle.minecraft.mod.variant.ModVariant" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="VARIANT" />
                   </DPropertyElement>
                 </set>
               </option>

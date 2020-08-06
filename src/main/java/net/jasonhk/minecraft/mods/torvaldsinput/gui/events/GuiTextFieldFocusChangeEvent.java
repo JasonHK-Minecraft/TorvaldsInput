@@ -1,6 +1,6 @@
 package net.jasonhk.minecraft.mods.torvaldsinput.gui.events;
 
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.eventbus.api.Event;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

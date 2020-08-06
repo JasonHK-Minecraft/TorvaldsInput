@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import net.minecraft.launchwrapper.Launch;
-import net.minecraft.launchwrapper.LaunchClassLoader;
+//#if MINECRAFT<11300
+//$$ import net.minecraft.launchwrapper.Launch;
+//$$ import net.minecraft.launchwrapper.LaunchClassLoader;
+//#endif
 
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -42,13 +44,15 @@ public final class InputMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public void onLoad(String mixinPackage)
     {
-        var field_classLoaderExceptions =
-                LaunchClassLoader.class.getDeclaredField("classLoaderExceptions");
-        field_classLoaderExceptions.setAccessible(true);
-
-        var classLoaderExceptions =
-                (Set<String>) field_classLoaderExceptions.get(Launch.classLoader);
-        classLoaderExceptions.remove("org.lwjgl.");
+        //#if MINECRAFT<11300
+        //$$ var field_classLoaderExceptions =
+        //$$         LaunchClassLoader.class.getDeclaredField("classLoaderExceptions");
+        //$$ field_classLoaderExceptions.setAccessible(true);
+        //$$
+        //$$ var classLoaderExceptions =
+        //$$         (Set<String>) field_classLoaderExceptions.get(Launch.classLoader);
+        //$$ classLoaderExceptions.remove("org.lwjgl.");
+        //#endif
     }
 
     @Override
