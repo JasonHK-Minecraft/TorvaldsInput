@@ -1,17 +1,11 @@
 import dev.jasonhk.gradle.minecraft.mod.variant.ModVariant
 
 buildscript {
-//    def (versionString, loader) = project.name.tokenize("-")
-//    def (versionMajor, versionMinor, versionPatch) = (versionString as String).tokenize(".").collect { Integer.parseInt(it ?: "0") }
     def variant = new ModVariant(project.name)
-    def (major, minor, patch) = project.name.tokenize("-")[0].tokenize(".")
-
-//    final def minecraftVersion = (versionMajor * 10000) + (versionMinor * 100) + versionPatch
-    def minecraftVersion = "${major}${minor.padLeft(2, '0')}${(patch ?: '').padLeft(2, '0')}" as int
-//    def isForge = ((minecraftVersion < 11300) || (loader == "forge"))
 
     project.ext {
-        MINECRAFT_VERSION = minecraftVersion
+        VARIANT = variant
+        MINECRAFT_VERSION = variant.version
 //        IS_FORGE = isForge
     }
 
@@ -36,10 +30,10 @@ buildscript {
     }
 
     dependencies {
-        final def forgeGradleVersion = (minecraftVersion >= 11200) ? "b64de9c" : // 2.3
-                                       (minecraftVersion >= 10904) ? "5bb7a53" : // 2.2
-                                       (minecraftVersion >= 10800) ? "fc1eabc"   // 2.1
-                                                                   : "5fca6853"  // 1.2
+        final def forgeGradleVersion = (variant.version.integer >= 11200) ? "b64de9c" : // 2.3
+                                       (variant.version.integer >= 10904) ? "5bb7a53" : // 2.2
+                                       (variant.version.integer >= 10800) ? "fc1eabc"   // 2.1
+                                                                          : "5fca6853"  // 1.2
 
         classpath "com.github.ReplayMod:ForgeGradle:${ forgeGradleVersion }:all"
     }
@@ -52,8 +46,8 @@ plugins {
 //    id "cross-versioned-mod-plugin"
 }
 
-apply plugin: (MINECRAFT_VERSION >= 10800) ? "net.minecraftforge.gradle.forge"
-                                           : "forge"
+apply plugin: (MINECRAFT_VERSION.integer >= 10800) ? "net.minecraftforge.gradle.forge"
+                                                   : "forge"
 
 ext {
     FORGE_MCP_SRG = new File(buildDir, "tmp/forgeMcpToSrg/mcp-srg.srg")
@@ -76,7 +70,7 @@ apply plugin: "com.replaymod.preprocess"
 //import com.replaymod.gradle.preprocess.PreprocessTask
 
 preprocess {
-    vars.put("MINECRAFT", MINECRAFT_VERSION)
+    vars.put("MINECRAFT", MINECRAFT_VERSION.integer)
 
 //    keywords.set([
 //            ".java"  : PreprocessTask.DEFAULT_KEYWORDS,
@@ -91,9 +85,6 @@ preprocess {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-final def MINECRAFT_VERSION_STRING =
-        "${ (int) (MINECRAFT_VERSION / 10000) }.${ (int) (MINECRAFT_VERSION / 100) % 100 }${ (MINECRAFT_VERSION % 100 == 0) ? "" : ".${ MINECRAFT_VERSION % 100 }" }"
-
 group = "net.jasonhk.minecraft.mods"
 archivesBaseName = "TorvaldsInput"
 version = "${ project.name }-${ rootProject.version }"
@@ -107,7 +98,9 @@ minecraft {
             11100: "1.11-13.19.1.2199",
             11002: "1.10.2-12.18.3.2511",
             11000: "1.10-12.18.0.2000-1.10.0",
-    ][MINECRAFT_VERSION]
+            10904: "1.9.4-12.17.0.2051",
+            10900: "1.9-12.16.1.1938-1.9.0",
+    ][MINECRAFT_VERSION.integer]
 
     mappings = [
             11202: "snapshot_20171003",
@@ -117,9 +110,11 @@ minecraft {
             11100: "snapshot_20161220",
             11002: "snapshot_20161111",
             11000: "snapshot_20160518",
-    ][MINECRAFT_VERSION]
+            10904: "snapshot_20160518",
+            10900: "snapshot_20160312",
+    ][MINECRAFT_VERSION.integer]
 
-    if (MINECRAFT_VERSION >= 10800)
+    if (MINECRAFT_VERSION.integer >= 10800)
     {
         coreMod = "net.jasonhk.minecraft.mods.torvaldsinput.core.LoadingPlugin"
     }
@@ -134,7 +129,7 @@ minecraft {
 
 afterEvaluate {
     tasks.sourceMainJava.replace "@MOD_VERSION@", project.version
-    tasks.sourceMainJava.replace "@MINECRAFT_VERSION@", "[ $MINECRAFT_VERSION_STRING ]"
+    tasks.sourceMainJava.replace "@MINECRAFT_VERSION@", "[ ${ MINECRAFT_VERSION.string } ]"
 }
 
 repositories {
@@ -173,7 +168,7 @@ configurations {
 }
 
 dependencies {
-    final def MIXIN_VERSION = (MINECRAFT_VERSION >= 11200) ? "0.8" : "0.7.10-SNAPSHOT"
+    final def MIXIN_VERSION = (MINECRAFT_VERSION.integer >= 11200) ? "0.8" : "0.7.10-SNAPSHOT"
     annotationProcessor "org.spongepowered:mixin:${ MIXIN_VERSION }"
     compileOnly "org.spongepowered:mixin:${ MIXIN_VERSION }"
     shade("org.spongepowered:mixin:${ MIXIN_VERSION }") {
@@ -188,7 +183,7 @@ dependencies {
     compileOnly "org.projectlombok:lombok:1.18.12"
 }
 
-if (MINECRAFT_VERSION <= 10710)
+if (MINECRAFT_VERSION.integer <= 10710)
 {
     // FG 1.2 adds all MC deps to the compile configuration which we don't want
     afterEvaluate {
@@ -223,7 +218,7 @@ task shadowReobfJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.Shado
 //shadowJar {
     from { tasks.jar.archiveFile.get() }
 
-    dependsOn { ((mcVersion >= 10800) ? tasks.reobfJar : tasks.reobf) }
+    dependsOn { ((MINECRAFT_VERSION.integer >= 10800) ? tasks.reobfJar : tasks.reobf) }
 
     manifest.inheritFrom tasks.jar.manifest
 
@@ -279,9 +274,12 @@ task copySrg(type: Copy, dependsOn: "genSrgs") {
 }
 compileJava.dependsOn copySrg
 
-if (MINECRAFT_VERSION <= 10710) {
+if (MINECRAFT_VERSION.integer <= 10710)
+{
     reobf.addExtraSrgFile MIXIN_SRG
-} else {
+}
+else
+{
     reobfJar.addSecondarySrgFile MIXIN_SRG
 }
 
