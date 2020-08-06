@@ -35,6 +35,7 @@ val NativesVariants = listOf(
         "2.0-2.9")
 
 val TorvaldsInputVariants = listOf(
+        "1.10",
         "1.10.2",
         "1.11",
         "1.11.2",
@@ -58,7 +59,7 @@ val TorvaldsInputVariants = listOf(
 TorvaldsInputVariants.forEach { variant ->
     include(":$variant")
     project(":$variant").apply {
-        projectDir = file("versions/$variant")
+        projectDir = file("variants/$variant")
         buildFileName = "../build.common.gradle"
     }
 }

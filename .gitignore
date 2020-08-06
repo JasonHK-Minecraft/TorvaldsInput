@@ -65,4 +65,4 @@ gradle-app.setting
 #==============================================================================#
 
 # Keep the directories from being removed
-!**/.gitkeep
+# !.gitkeep

@@ -1,8 +1,19 @@
+import dev.jasonhk.gradle.minecraft.mod.variant.ModVariant
+
 buildscript {
+//    def (versionString, loader) = project.name.tokenize("-")
+//    def (versionMajor, versionMinor, versionPatch) = (versionString as String).tokenize(".").collect { Integer.parseInt(it ?: "0") }
+    def variant = new ModVariant(project.name)
     def (major, minor, patch) = project.name.tokenize("-")[0].tokenize(".")
 
-    final def minecraftVersion = "${ major }${ minor.padLeft(2, "0") }${ (patch ?: "").padLeft(2, "0") }" as int
-    project.ext.MINECRAFT_VERSION = minecraftVersion
+//    final def minecraftVersion = (versionMajor * 10000) + (versionMinor * 100) + versionPatch
+    def minecraftVersion = "${major}${minor.padLeft(2, '0')}${(patch ?: '').padLeft(2, '0')}" as int
+//    def isForge = ((minecraftVersion < 11300) || (loader == "forge"))
+
+    project.ext {
+        MINECRAFT_VERSION = minecraftVersion
+//        IS_FORGE = isForge
+    }
 
     repositories {
         mavenCentral()
@@ -95,6 +106,7 @@ minecraft {
             11102: "1.11.2-13.20.1.2588",
             11100: "1.11-13.19.1.2199",
             11002: "1.10.2-12.18.3.2511",
+            11000: "1.10-12.18.0.2000-1.10.0",
     ][MINECRAFT_VERSION]
 
     mappings = [
@@ -104,6 +116,7 @@ minecraft {
             11102: "snapshot_20161220",
             11100: "snapshot_20161220",
             11002: "snapshot_20161111",
+            11000: "snapshot_20160518",
     ][MINECRAFT_VERSION]
 
     if (MINECRAFT_VERSION >= 10800)
