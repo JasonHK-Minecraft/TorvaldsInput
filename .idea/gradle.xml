@@ -6,12 +6,17 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/versions/1.11.2" />
-            <option value="$PROJECT_DIR$/versions/1.12.2" />
+            <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/variants/1.10" />
+            <option value="$PROJECT_DIR$/variants/1.10.2" />
+            <option value="$PROJECT_DIR$/variants/1.11" />
+            <option value="$PROJECT_DIR$/variants/1.11.2" />
+            <option value="$PROJECT_DIR$/variants/1.12" />
+            <option value="$PROJECT_DIR$/variants/1.12.1" />
+            <option value="$PROJECT_DIR$/variants/1.12.2" />
           </set>
         </option>
       </GradleProjectSettings>
