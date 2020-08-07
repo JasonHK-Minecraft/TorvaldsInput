@@ -12,17 +12,18 @@
 //$$ import org.spongepowered.asm.launch.MixinBootstrap;
 //$$ import org.spongepowered.asm.mixin.Mixins;
 //$$
+//$$ import net.jasonhk.minecraft.mods.torvaldsinput.core.utilities.MixinConfigurator;
+//$$
 //$$ public final class LoadingPlugin implements IFMLLoadingPlugin
 //$$ {
 //$$     public LoadingPlugin()
 //$$     {
 //$$         if (Launch.blackboard.get("fml.deobfuscatedEnvironment") != Boolean.FALSE)
 //$$         {
-//$$             MixinBootstrap.init();
+//$$             MixinConfigurator.initialize();
 //$$         }
 //$$
-//$$         Mixins.addConfiguration("torvaldsinput.mixins.input.json");
-//$$         Mixins.addConfiguration("torvaldsinput.mixins.gui.json");
+//$$         MixinConfigurator.configure();
 //$$     }
 //$$
 //$$     @Override

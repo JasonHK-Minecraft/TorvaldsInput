@@ -10,6 +10,8 @@
 //$$ import org.spongepowered.asm.launch.MixinBootstrap;
 //$$ import org.spongepowered.asm.mixin.Mixins;
 //$$
+//$$ import net.jasonhk.minecraft.mods.torvaldsinput.core.utilities.MixinConfigurator;
+//$$
 //$$ @SuppressWarnings("unused")
 //$$ public final class TorvaldsInputTweaker implements ITweaker
 //$$ {
@@ -24,9 +26,8 @@
 //$$     @Override
 //$$     public void injectIntoClassLoader(LaunchClassLoader classLoader)
 //$$     {
-//$$         MixinBootstrap.init();
-//$$         Mixins.addConfiguration("torvaldsinput.mixins.input.json");
-//$$         Mixins.addConfiguration("torvaldsinput.mixins.gui.json");
+//$$         MixinConfigurator.initialize();
+//$$         MixinConfigurator.configure();
 //$$     }
 //$$
 //$$     @Override
