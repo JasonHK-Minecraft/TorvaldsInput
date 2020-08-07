@@ -44,7 +44,8 @@ val TorvaldsInputVariants = listOf(
         "1.12",
         "1.12.1",
         "1.12.2",
-        "1.13.2")
+        "1.13.2",
+        "1.14.4-Forge")
 
 //include(":natives")
 //project(":natives").apply {

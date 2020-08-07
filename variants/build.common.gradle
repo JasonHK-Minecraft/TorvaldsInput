@@ -1,4 +1,3 @@
-import dev.jasonhk.gradle.minecraft.mod.variant.ModLoader
 import dev.jasonhk.gradle.minecraft.mod.variant.ModVariant
 
 buildscript {
@@ -168,6 +167,7 @@ minecraft {
     }
 
     mappings = [
+            11404: "snapshot_20190719-1.14.3",
             11302: "snapshot_20180921-1.13",
             11202: "snapshot_20171003",
             11201: "snapshot_20170624",
@@ -264,6 +264,7 @@ dependencies {
     if (IS_LOADER_FORGE && IS_FORGEGRADLE_3)
     {
         def forgeVersion = [
+                11404: "1.14.4-28.2.23",
                 11302: "1.13.2-25.0.219"
         ][MINECRAFT.integer]
 
@@ -278,9 +279,12 @@ dependencies {
 
         annotationProcessor "org.spongepowered:mixin:${ mixinVersion }"
         compileOnly "org.spongepowered:mixin:${ mixinVersion }"
-        shade("org.spongepowered:mixin:${ mixinVersion }") {
-            // Dependencies should all be bundled with Minecraft.
-            transitive = false
+        if (MINECRAFT.integer < 11300)
+        {
+            shade("org.spongepowered:mixin:${ mixinVersion }") {
+                // Dependencies should all be bundled with Minecraft.
+                transitive = false
+            }
         }
 
         // The annotation processor of Mixin needed these to work.
@@ -347,7 +351,7 @@ task shadowReobfJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.Shado
 //    }
 
     minimize {
-        exclude(dependency('.*spongepowered:mixin:.*'))
+        exclude(dependency(".*spongepowered:mixin:.*"))
     }
 }
 tasks.assemble.dependsOn tasks.shadowReobfJar
@@ -363,6 +367,7 @@ jar {
                    "Implementation-Title": "TorvaldsInput",
                    "FMLCorePluginContainsFMLMod": "true",
                    "TweakClass": "net.jasonhk.minecraft.mods.torvaldsinput.core.tweaker.TorvaldsInputTweaker"
+//                   "MixinConnector": "net.jasonhk.minecraft.mods.torvaldsinput.core.TorvaldsInputMixinConnector"
     }
 }
 
