@@ -16,7 +16,7 @@ import net.jasonhk.minecraft.mods.torvaldsinput.gui.events.TextFieldWidgetFocusC
  * The mixin class targeting {@link TextFieldWidget}.
  */
 @Mixin(TextFieldWidget.class)
-public abstract class MixinTextFieldWidget
+public abstract class TextFieldWidgetMixin
 {
     /**
      * Injects the codes to post a {@link TextFieldWidgetFocusChangeEvent}.

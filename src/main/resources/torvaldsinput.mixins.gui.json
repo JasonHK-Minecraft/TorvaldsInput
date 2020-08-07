@@ -4,9 +4,9 @@
     "mixins": [],
     "client": [
         //#if MINECRAFT>=11400
-        "MixinTextFieldWidget"
+        "TextFieldWidgetMixin"
         //#else
-        //$$ "MixinGuiTextField"
+        //$$ "GuiTextFieldMixin"
         //#endif
     ],
     "server": [],

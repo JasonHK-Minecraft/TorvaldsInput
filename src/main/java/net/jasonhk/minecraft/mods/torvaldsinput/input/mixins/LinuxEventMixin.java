@@ -20,7 +20,7 @@
 //$$  */
 //$$ @SuppressWarnings({ "JavadocReference", "UnusedMixin" })
 //$$ @Mixin(targets = "org.lwjgl.opengl.LinuxEvent", remap = false)
-//$$ public abstract class MixinLinuxEvent
+//$$ public abstract class LinuxEventMixin
 //$$ {
 //$$     /**
 //$$      * The {@code ByteBuffer} storing an X event.

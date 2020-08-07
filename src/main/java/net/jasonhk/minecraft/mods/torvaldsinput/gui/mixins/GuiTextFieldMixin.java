@@ -18,7 +18,7 @@
 //$$  * The mixin class targeting {@link GuiTextField}.
 //$$  */
 //$$ @Mixin(GuiTextField.class)
-//$$ public abstract class MixinGuiTextField
+//$$ public abstract class GuiTextFieldMixin
 //$$ {
 //$$     /**
 //$$      * Injects the codes to post a {@link GuiTextFieldFocusChangeEvent}.

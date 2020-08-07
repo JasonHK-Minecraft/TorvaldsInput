@@ -23,7 +23,7 @@
 //$$  */
 //$$ @SuppressWarnings({ "JavadocReference", "UnusedMixin" })
 //$$ @Mixin(targets = "org.lwjgl.opengl.LinuxKeyboard", remap = false)
-//$$ public abstract class MixinLinuxKeyboard
+//$$ public abstract class LinuxKeyboardMixin
 //$$ {
 //$$     /**
 //$$      * The pointer to the input context of an X client.
