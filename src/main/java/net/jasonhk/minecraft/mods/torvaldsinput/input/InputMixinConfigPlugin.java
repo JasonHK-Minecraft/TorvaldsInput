@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 import lombok.SneakyThrows;
-import lombok.var;
+import lombok.val;
 
 //#if MINECRAFT>=11200
 import org.objectweb.asm.tree.ClassNode;
@@ -32,8 +32,12 @@ public final class InputMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public List<String> getMixins()
     {
-        return Arrays.asList("MixinLinuxEvent",
-                             "MixinLinuxKeyboard");
+        //#if MINECRAFT>=11300
+        return new ArrayList<>();
+        //#else
+        //$$ return Arrays.asList("MixinLinuxEvent",
+        //$$                      "MixinLinuxKeyboard");
+        //#endif
     }
 
     @Override
@@ -45,11 +49,11 @@ public final class InputMixinConfigPlugin implements IMixinConfigPlugin
     public void onLoad(String mixinPackage)
     {
         //#if MINECRAFT<11300
-        //$$ var field_classLoaderExceptions =
+        //$$ val field_classLoaderExceptions =
         //$$         LaunchClassLoader.class.getDeclaredField("classLoaderExceptions");
         //$$ field_classLoaderExceptions.setAccessible(true);
         //$$
-        //$$ var classLoaderExceptions =
+        //$$ val classLoaderExceptions =
         //$$         (Set<String>) field_classLoaderExceptions.get(Launch.classLoader);
         //$$ classLoaderExceptions.remove("org.lwjgl.");
         //#endif

@@ -3,7 +3,11 @@
     "required": true,
     "mixins": [],
     "client": [
-        "MixinGuiTextField"
+        //#if MINECRAFT>=11400
+        "MixinTextFieldWidget"
+        //#else
+        //$$ "MixinGuiTextField"
+        //#endif
     ],
     "server": [],
     "refmap": "torvaldsinput.refmap.json",

@@ -1,18 +1,23 @@
 package net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers;
 
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiScreenBook;
-import net.minecraft.client.gui.inventory.GuiEditSign;
+//#if MINECRAFT>=11400
+import net.minecraft.client.gui.screen.EditBookScreen;
+import net.minecraft.client.gui.screen.EditSignScreen;
+//#else
+//$$ import net.minecraft.client.gui.GuiScreenBook;
+//$$ import net.minecraft.client.gui.inventory.GuiEditSign;
+//#endif
 
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import lombok.val;
 
-import net.jasonhk.minecraft.mods.torvaldsinput.gui.events.GuiTextFieldFocusChangeEvent;
+import net.jasonhk.minecraft.mods.torvaldsinput.gui.events.TextFieldFocusChangeEvent;
 
 public abstract class AbstractGuiHandler
 {
+    @SuppressWarnings("DuplicateCondition")
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent event)
     {
@@ -23,21 +28,20 @@ public abstract class AbstractGuiHandler
         {
             canInput = false;
         }
-//        else if (gui instanceof GuiChat)
-//        {
-//            return;
-//        }
         else
         {
-            //noinspection DuplicateCondition
-            canInput = ((gui instanceof GuiScreenBook) || (gui instanceof GuiEditSign));
+            //#if MINECRAFT>=11400
+            canInput = ((gui instanceof EditBookScreen) || (gui instanceof EditSignScreen));
+            //#else
+            //$$ canInput = ((gui instanceof GuiScreenBook) || (gui instanceof GuiEditSign));
+            //#endif
         }
 
         setInputFocus(canInput);
     }
 
     @SubscribeEvent
-    public void onGuiTextFieldFocusChange(GuiTextFieldFocusChangeEvent event)
+    public void onGuiTextFieldFocusChange(TextFieldFocusChangeEvent event)
     {
         setInputFocus(event.isFocused());
     }
