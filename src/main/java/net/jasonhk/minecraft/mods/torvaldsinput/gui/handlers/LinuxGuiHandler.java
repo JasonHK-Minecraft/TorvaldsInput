@@ -1,18 +1,23 @@
 package net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import net.jasonhk.minecraft.mods.torvaldsinput.input.LinuxKeyboard;
 
-@Data
 @EqualsAndHashCode(callSuper = false)
-public final class GuiHandler extends AbstractGuiHandler
+@ToString
+public final class LinuxGuiHandler extends AbstractGuiHandler
 {
     /**
-     * The pointer to the input context of an X client.
+     * The pointer to an X input context.
      */
     private final long xic;
+
+    public LinuxGuiHandler(long xic)
+    {
+        this.xic = xic;
+    }
 
     @Override
     protected void setInputFocus(boolean focused)
