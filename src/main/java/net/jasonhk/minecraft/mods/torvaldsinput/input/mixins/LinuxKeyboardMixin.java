@@ -55,7 +55,7 @@
 //$$               at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/LinuxKeyboard;openIM(J)J"))
 //$$     private long redirect_init_INVOKE_openIM(long display)
 //$$     {
-//$$         return X11Input.openIM(display);
+//$$         return X11Input.openIm(display);
 //$$     }
 //$$
 //$$     /**

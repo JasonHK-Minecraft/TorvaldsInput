@@ -207,7 +207,7 @@ minecraft {
 
         if (MINECRAFT.integer >= 10800)
         {
-            coreMod = "net.jasonhk.minecraft.mods.torvaldsinput.core.LoadingPlugin"
+            coreMod = "net.jasonhk.minecraft.mods.torvaldsinput.core.TorvaldsInputLoadingPlugin"
         }
     }
 }
@@ -310,8 +310,7 @@ if (MINECRAFT.integer <= 10710)
         sourceSets.main.with {
             compileClasspath += configurations.minecraft + configurations.minecraftDeps
             runtimeClasspath += configurations.minecraft + configurations.minecraftDeps +
-                                configurations.
-                                        forgeGradleStartClass
+                                configurations.forgeGradleStartClass
         }
 
         // Also need to reconfigure the reobf task, so it can properly re-obfuscates inherited members

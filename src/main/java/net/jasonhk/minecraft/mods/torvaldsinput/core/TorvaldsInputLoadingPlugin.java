@@ -14,7 +14,7 @@
 //$$
 //$$ import net.jasonhk.minecraft.mods.torvaldsinput.core.utilities.MixinConfigurator;
 //$$
-//$$ public final class LoadingPlugin implements IFMLLoadingPlugin
+//$$ public final class TorvaldsInputLoadingPlugin implements IFMLLoadingPlugin
 //$$ {
 //$$     public LoadingPlugin()
 //$$     {

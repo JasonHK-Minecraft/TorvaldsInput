@@ -1,9 +1,12 @@
+
 package net.jasonhk.minecraft.mods.torvaldsinput.input;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+//#if MINECRAFT<11300
+//$$ import java.util.ArrayList;
+//$$ import java.util.Arrays;
+//#endif
 
 //#if MINECRAFT<11300
 //$$ import net.minecraft.launchwrapper.Launch;
@@ -13,8 +16,10 @@ import java.util.Set;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import lombok.SneakyThrows;
-import lombok.val;
+//#if MINECRAFT<11300
+//$$ import lombok.SneakyThrows;
+//$$ import lombok.val;
+//#endif
 
 //#if MINECRAFT>=11200
 import org.objectweb.asm.tree.ClassNode;
@@ -34,7 +39,7 @@ public final class InputMixinConfigPlugin implements IMixinConfigPlugin
     public List<String> getMixins()
     {
         //#if MINECRAFT>=11300
-        return Arrays.asList("MainWindowMixin");
+        return null;
         //#else
         //$$ return Arrays.asList("LinuxEventMixin",
         //$$                      "LinuxKeyboardMixin");
@@ -44,8 +49,10 @@ public final class InputMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {}
 
-    @SuppressWarnings("unchecked")
-    @SneakyThrows({ IllegalAccessException.class, NoSuchFieldException.class })
+    //#if MINECRAFT<11300
+    //$$ @SuppressWarnings("unchecked")
+    //$$ @SneakyThrows({ IllegalAccessException.class, NoSuchFieldException.class })
+    //#endif
     @Override
     public void onLoad(String mixinPackage)
     {

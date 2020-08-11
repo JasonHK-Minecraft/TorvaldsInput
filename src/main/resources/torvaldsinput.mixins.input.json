@@ -2,7 +2,11 @@
     "package": "net.jasonhk.minecraft.mods.torvaldsinput.input.mixins",
     "required": true,
     "mixins": [],
-    "client": [],
+    "client": [
+        //#if MINECRAFT>=11400
+        "MainWindowMixin"
+        //#endif
+    ],
     "server": [],
     "plugin": "net.jasonhk.minecraft.mods.torvaldsinput.input.InputMixinConfigPlugin",
     "compatibilityLevel": "JAVA_8"
