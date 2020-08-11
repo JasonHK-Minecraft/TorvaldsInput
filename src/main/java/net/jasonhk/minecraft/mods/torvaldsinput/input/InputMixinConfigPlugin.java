@@ -34,7 +34,7 @@ public final class InputMixinConfigPlugin implements IMixinConfigPlugin
     public List<String> getMixins()
     {
         //#if MINECRAFT>=11300
-        return new ArrayList<>();
+        return Arrays.asList("MainWindowMixin");
         //#else
         //$$ return Arrays.asList("LinuxEventMixin",
         //$$                      "LinuxKeyboardMixin");

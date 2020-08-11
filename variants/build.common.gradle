@@ -366,8 +366,8 @@ jar {
                    "Specification-Version": "1",
                    "Implementation-Title": "TorvaldsInput",
                    "FMLCorePluginContainsFMLMod": "true",
-                   "TweakClass": "net.jasonhk.minecraft.mods.torvaldsinput.core.tweaker.TorvaldsInputTweaker"
-//                   "MixinConnector": "net.jasonhk.minecraft.mods.torvaldsinput.core.TorvaldsInputMixinConnector"
+                   "TweakClass": "net.jasonhk.minecraft.mods.torvaldsinput.core.tweaker.TorvaldsInputTweaker",
+                   "MixinConnector": "net.jasonhk.minecraft.mods.torvaldsinput.core.TorvaldsInputMixinConnector"
     }
 }
 

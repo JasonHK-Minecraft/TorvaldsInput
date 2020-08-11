@@ -7,6 +7,7 @@
       <option name="CUSTOM_HEADERS">
         <header value="FMLCorePluginContainsFMLMod" />
         <header value="MixinConfigs" />
+        <header value="MixinConnector" />
         <header value="TweakClass" />
       </option>
     </inspection_tool>

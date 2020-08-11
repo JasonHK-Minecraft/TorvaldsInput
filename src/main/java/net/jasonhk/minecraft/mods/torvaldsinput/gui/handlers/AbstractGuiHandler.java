@@ -19,7 +19,7 @@ public abstract class AbstractGuiHandler
 {
     @SuppressWarnings("DuplicateCondition")
     @SubscribeEvent
-    public void onGuiOpen(GuiOpenEvent event)
+    public final void onGuiOpen(GuiOpenEvent event)
     {
         boolean canInput;
 
@@ -41,7 +41,7 @@ public abstract class AbstractGuiHandler
     }
 
     @SubscribeEvent
-    public void onGuiTextFieldFocusChange(TextFieldFocusChangeEvent event)
+    public final void onTextFieldFocusChange(TextFieldFocusChangeEvent event)
     {
         setInputFocus(event.isFocused());
     }

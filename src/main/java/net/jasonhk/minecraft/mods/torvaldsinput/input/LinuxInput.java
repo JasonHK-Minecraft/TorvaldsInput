@@ -2,16 +2,16 @@ package net.jasonhk.minecraft.mods.torvaldsinput.input;
 
 import com.sun.jna.Pointer;
 
-import lombok.var;
+import lombok.val;
 
-import net.jasonhk.minecraft.mods.torvaldsinput.input.natives.unix.X11;
-import static net.jasonhk.minecraft.mods.torvaldsinput.input.natives.unix.X11.Display;
-import static net.jasonhk.minecraft.mods.torvaldsinput.input.natives.unix.X11.XIC;
+import static com.sun.jna.platform.unix.X11.Display;
+import static net.jasonhk.minecraft.mods.torvaldsinput.natives.unix.X11.XIC;
 
 @SuppressWarnings("JavadocReference")
-public final class LinuxKeyboard
+public final class LinuxInput
 {
-    private static final X11 _X11 = X11.INSTANCE;
+    private static final net.jasonhk.minecraft.mods.torvaldsinput.natives.unix.X11 X11
+            = net.jasonhk.minecraft.mods.torvaldsinput.natives.unix.X11.INSTANCE;
 
     /**
      * Opens an X input method, matching the current locale and modifiers specification.
@@ -25,35 +25,33 @@ public final class LinuxKeyboard
      */
     public static long openIM(long displayPointer)
     {
-        var display = new Display();
+        val display = new Display();
         display.setPointer(new Pointer(displayPointer));
 
-        var xim = _X11.XOpenIM(display, null, null, null);
+        val xim = X11.XOpenIM(display, null, null, null);
         return Pointer.nativeValue(xim.getPointer());
     }
 
     /**
      * Updates the keyboard focus state of an X input context.
      *
-     * @param xicPointer The pointer to an X input context.
-     * @param focused    Whether the X input context should receive keyboard focus.
+     * @param ic      The pointer to an X input context.
+     * @param focused Whether the X input context should receive keyboard focus.
      *
      * @see <a href="https://www.x.org/releases/X11R7.5/doc/man/man3/XSetICFocus.3.html">
      *         <code>XSetICFocus(XIC)</code></a>
      * @see <a href="https://www.x.org/releases/X11R7.5/doc/man/man3/XSetICFocus.3.html">
      *         <code>XUnsetICFocus(XIC)</code></a>
      */
-    public static void toggleICFocus(long xicPointer, boolean focused)
+    public static void toggleIcFocus(XIC ic, boolean focused)
     {
-        var xic = new XIC(Pointer.createConstant(xicPointer));
-
         if (focused)
         {
-            _X11.XSetICFocus(xic);
+            X11.XSetICFocus(ic);
         }
         else
         {
-            _X11.XUnsetICFocus(xic);
+            X11.XUnsetICFocus(ic);
         }
     }
 }

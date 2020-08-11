@@ -3,6 +3,8 @@
 //#else
 //$$ package net.jasonhk.minecraft.mods.torvaldsinput.input.mixins;
 //$$
+//$$ import com.sun.jna.Pointer;
+//$$
 //$$ import net.minecraftforge.common.MinecraftForge;
 //$$
 //$$ import org.spongepowered.asm.mixin.Final;
@@ -14,9 +16,9 @@
 //$$ import org.spongepowered.asm.mixin.injection.Redirect;
 //$$ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //$$
-//$$ import net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers.AbstractGuiHandler;
-//$$ import net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers.LinuxGuiHandler;
-//$$ import net.jasonhk.minecraft.mods.torvaldsinput.input.LinuxKeyboard;
+//$$ import net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers.X11GuiHandler;
+//$$ import net.jasonhk.minecraft.mods.torvaldsinput.input.LinuxInput;
+//$$ import static net.jasonhk.minecraft.mods.torvaldsinput.natives.unix.X11.XIC;
 //$$
 //$$ /**
 //$$  * The mixin class targeting {@link org.lwjgl.opengl.LinuxKeyboard}.
@@ -35,10 +37,10 @@
 //$$     private long xic;
 //$$
 //$$     /**
-//$$      * The {@code GuiHandler} event handler.
+//$$      * The GUI event handler.
 //$$      */
 //$$     @Unique
-//$$     private AbstractGuiHandler guiHandler;
+//$$     private X11GuiHandler guiHandler;
 //$$
 //$$     /**
 //$$      * Redirects the invocations of {@link org.lwjgl.opengl.LinuxKeyboard#openIM(long)} to my own
@@ -53,7 +55,7 @@
 //$$               at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/LinuxKeyboard;openIM(J)J"))
 //$$     private long redirect_init_INVOKE_openIM(long display)
 //$$     {
-//$$         return LinuxKeyboard.openIM(display);
+//$$         return LinuxInput.openIM(display);
 //$$     }
 //$$
 //$$     /**
@@ -68,7 +70,7 @@
 //$$     {
 //$$         if (xic != 0)
 //$$         {
-//$$             guiHandler = new LinuxGuiHandler(xic);
+//$$             guiHandler = new X11GuiHandler(XIC.of(new Pointer(xic)));
 //$$             MinecraftForge.EVENT_BUS.register(guiHandler);
 //$$         }
 //$$     }
