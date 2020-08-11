@@ -17,7 +17,7 @@
 //$$ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //$$
 //$$ import net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers.X11GuiHandler;
-//$$ import net.jasonhk.minecraft.mods.torvaldsinput.input.LinuxInput;
+//$$ import net.jasonhk.minecraft.mods.torvaldsinput.input.X11Input;
 //$$ import static net.jasonhk.minecraft.mods.torvaldsinput.natives.unix.X11.XIC;
 //$$
 //$$ /**
@@ -55,7 +55,7 @@
 //$$               at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/LinuxKeyboard;openIM(J)J"))
 //$$     private long redirect_init_INVOKE_openIM(long display)
 //$$     {
-//$$         return LinuxInput.openIM(display);
+//$$         return X11Input.openIM(display);
 //$$     }
 //$$
 //$$     /**

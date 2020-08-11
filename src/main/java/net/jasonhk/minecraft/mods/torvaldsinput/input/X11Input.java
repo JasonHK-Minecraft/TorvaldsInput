@@ -8,7 +8,7 @@ import static com.sun.jna.platform.unix.X11.Display;
 import static net.jasonhk.minecraft.mods.torvaldsinput.natives.unix.X11.XIC;
 
 @SuppressWarnings("JavadocReference")
-public final class LinuxInput
+public final class X11Input
 {
     private static final net.jasonhk.minecraft.mods.torvaldsinput.natives.unix.X11 X11
             = net.jasonhk.minecraft.mods.torvaldsinput.natives.unix.X11.INSTANCE;
