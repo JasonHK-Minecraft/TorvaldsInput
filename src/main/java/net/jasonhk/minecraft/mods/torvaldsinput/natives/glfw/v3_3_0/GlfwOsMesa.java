@@ -1,5 +1,5 @@
 //#if MINECRAFT>=11300
-package net.jasonhk.minecraft.mods.torvaldsinput.natives.glfw.v3_3;
+package net.jasonhk.minecraft.mods.torvaldsinput.natives.glfw.v3_3_0;
 
 import java.util.Arrays;
 import java.util.List;

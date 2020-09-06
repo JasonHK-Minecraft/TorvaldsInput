@@ -16,7 +16,7 @@
 //$$
 //$$ public final class TorvaldsInputLoadingPlugin implements IFMLLoadingPlugin
 //$$ {
-//$$     public LoadingPlugin()
+//$$     public TorvaldsInputLoadingPlugin()
 //$$     {
 //$$         if (Launch.blackboard.get("fml.deobfuscatedEnvironment") != Boolean.FALSE)
 //$$         {

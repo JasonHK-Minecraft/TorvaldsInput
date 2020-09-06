@@ -1,29 +1,34 @@
 //#if MINECRAFT>=11300
-package net.jasonhk.minecraft.mods.torvaldsinput.natives.glfw.v3_3;
+package net.jasonhk.minecraft.mods.torvaldsinput.natives.glfw.v3_3_0;
 
 import java.util.Arrays;
 import java.util.List;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
-import static com.sun.jna.platform.unix.X11.XID;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
-public interface GlfwGlx extends Glfw
+public interface GlfwEgl
 {
     @SuppressWarnings("unused")
     @FieldDefaults(level = AccessLevel.PUBLIC)
-    class GlfwContextGlx extends Structure
+    class GlfwContextEgl extends Structure
     {
+        Pointer config;
         Pointer handle;
-        XID     window;
+        Pointer surface;
+
+        Pointer client;
 
         @Override
         protected List<String> getFieldOrder()
         {
-            return Arrays.asList("handle", "window");
+            return Arrays.asList("config",
+                                 "handle",
+                                 "surface",
+                                 "client");
         }
     }
 }
