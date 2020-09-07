@@ -1,3 +1,4 @@
+//#if MINECRAFT>=11300
 package net.jasonhk.minecraft.mods.torvaldsinput.core.utilities;
 
 import static org.lwjgl.Version.VERSION_MAJOR;
@@ -17,3 +18,4 @@ public class LwjglVersion
 
     public final Version VERSION = Version.forIntegers(MAJOR, MINOR, REVISION);
 }
+//#endif

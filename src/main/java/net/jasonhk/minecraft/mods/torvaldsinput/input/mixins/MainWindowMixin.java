@@ -15,18 +15,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import lombok.val;
-
 import com.github.zafarkhaja.semver.Version;
 
+import lombok.val;
+
 import net.jasonhk.minecraft.mods.torvaldsinput.core.utilities.LwjglVersion;
+import net.jasonhk.minecraft.mods.torvaldsinput.gui.events.GlfwWindowFocusChangeEvent;
 import net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers.AbstractGuiHandler;
 import net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers.X11GuiHandler;
 import static net.jasonhk.minecraft.mods.torvaldsinput.natives.glfw.Glfw.AbstractGlfwWindow;
 import static net.jasonhk.minecraft.mods.torvaldsinput.natives.glfw.GlfwX11.IGlfwWindow;
-import static net.jasonhk.minecraft.mods.torvaldsinput.natives.glfw.v3_3_0.GlfwX11.GlfwWindow;
 
-@SuppressWarnings("UnusedMixin")
 @Mixin(MainWindow.class)
 public abstract class MainWindowMixin
 {
@@ -38,7 +37,7 @@ public abstract class MainWindowMixin
     private AbstractGuiHandler guiHandler;
 
     @Inject(method = "<init>", at = @At(value = "RETURN"))
-    private void inject_init_RETURN(CallbackInfo callback)
+    private void inject__init__RETURN(CallbackInfo callback)
     {
         AbstractGlfwWindow window;
         {
@@ -77,6 +76,19 @@ public abstract class MainWindowMixin
         {
             MinecraftForge.EVENT_BUS.unregister(guiHandler);
             guiHandler = null;
+        }
+    }
+
+    @Inject(method = "onWindowFocusUpdate", at = @At(value = "RETURN"))
+    private void inject_onWindowFocusUpdate_RETURN(
+            long windowPointer,
+            boolean hasFocus,
+            CallbackInfo callback)
+    {
+        if (windowPointer == handle)
+        {
+            MinecraftForge.EVENT_BUS.post(
+                    new GlfwWindowFocusChangeEvent(new Pointer(windowPointer), hasFocus));
         }
     }
 }

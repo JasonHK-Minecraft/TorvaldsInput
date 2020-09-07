@@ -15,11 +15,29 @@ public interface X11 extends com.sun.jna.platform.unix.X11
     //$$ X11 INSTANCE = (X11) Native.loadLibrary("X11", X11.class);
     //#endif
 
-    XIM XOpenIM(Display display, XrmDatabase db, String res_name, String res_class);
+    //#if MINECRAFT>=11300
+    @SuppressWarnings("unused")
+    //#endif
+    XIM XOpenIM(
+            com.sun.jna.platform.unix.X11.Display display,
+            XrmDatabase db,
+            String res_name,
+            String res_class);
 
     void XSetICFocus(XIC ic);
 
     void XUnsetICFocus(XIC ic);
+
+    class Display extends com.sun.jna.platform.unix.X11.Display
+    {
+        public static Display of(Pointer pointer)
+        {
+            val display = new Display();
+            display.setPointer(pointer);
+
+            return display;
+        }
+    }
 
     @SuppressWarnings("unused")
     class Time extends NativeLong

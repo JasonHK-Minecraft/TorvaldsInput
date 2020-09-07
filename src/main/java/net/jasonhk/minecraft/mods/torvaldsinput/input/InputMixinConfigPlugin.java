@@ -29,6 +29,12 @@ import org.objectweb.asm.tree.ClassNode;
 
 public final class InputMixinConfigPlugin implements IMixinConfigPlugin
 {
+    //#if MINECRAFT<11300
+    //$$ private static final List<String> USED_CLASS_NAMES =
+    //$$         Arrays.asList("org.lwjgl.opengl.LinuxEvent",
+    //$$                       "org.lwjgl.opengl.LinuxKeyboard");
+    //#endif
+
     @Override
     public String getRefMapperConfig()
     {
@@ -57,15 +63,42 @@ public final class InputMixinConfigPlugin implements IMixinConfigPlugin
     public void onLoad(String mixinPackage)
     {
         //#if MINECRAFT<11300
-        //$$ val field_classLoaderExceptions =
-        //$$         LaunchClassLoader.class.getDeclaredField("classLoaderExceptions");
-        //$$ field_classLoaderExceptions.setAccessible(true);
+        //$$ Set<String> classLoaderExceptions;
+        //$$ {
+        //$$     val field_classLoaderExceptions =
+        //$$             LaunchClassLoader.class.getDeclaredField("classLoaderExceptions");
+        //$$     field_classLoaderExceptions.setAccessible(true);
         //$$
-        //$$ val classLoaderExceptions =
-        //$$         (Set<String>) field_classLoaderExceptions.get(Launch.classLoader);
-        //$$ classLoaderExceptions.remove("org.lwjgl.");
+        //$$     classLoaderExceptions =
+        //$$             (Set<String>) field_classLoaderExceptions.get(Launch.classLoader);
+        //$$ }
+        //$$
+        //$$ Set<String> transformerExceptions;
+        //$$ {
+        //$$     val field_transformerExceptions =
+        //$$             LaunchClassLoader.class.getDeclaredField("transformerExceptions");
+        //$$     field_transformerExceptions.setAccessible(true);
+        //$$
+        //$$     transformerExceptions =
+        //$$             (Set<String>) field_transformerExceptions.get(Launch.classLoader);
+        //$$ }
+        //$$
+        //$$ classLoaderExceptions.removeIf(this::shouldExceptionBeRemoved);
+        //$$ transformerExceptions.removeIf(this::shouldExceptionBeRemoved);
         //#endif
     }
+
+    //#if MINECRAFT<11300
+    //$$ private boolean shouldExceptionBeRemoved(String exception)
+    //$$ {
+    //$$     return USED_CLASS_NAMES
+    //$$             .stream()
+    //$$             .anyMatch((className) ->
+    //$$                       {
+    //$$                           return className.startsWith(exception);
+    //$$                       });
+    //$$ }
+    //#endif
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName)

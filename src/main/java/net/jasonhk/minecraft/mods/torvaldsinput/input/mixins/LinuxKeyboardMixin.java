@@ -1,9 +1,8 @@
-//#if MINECRAFT>=11300
-// This mixin class is meant for LWJGL 2.X, which is used by Minecraft 1.12.2 or older.
-//#else
+//#if MINECRAFT<11300
 //$$ package net.jasonhk.minecraft.mods.torvaldsinput.input.mixins;
 //$$
 //$$ import com.sun.jna.Pointer;
+//$$ import com.sun.jna.platform.unix.X11;
 //$$
 //$$ import net.minecraftforge.common.MinecraftForge;
 //$$
@@ -16,8 +15,11 @@
 //$$ import org.spongepowered.asm.mixin.injection.Redirect;
 //$$ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //$$
+//$$ import lombok.val;
+//$$
 //$$ import net.jasonhk.minecraft.mods.torvaldsinput.gui.handlers.X11GuiHandler;
 //$$ import net.jasonhk.minecraft.mods.torvaldsinput.input.X11Input;
+//$$ import static net.jasonhk.minecraft.mods.torvaldsinput.natives.unix.X11.Display;
 //$$ import static net.jasonhk.minecraft.mods.torvaldsinput.natives.unix.X11.XIC;
 //$$
 //$$ /**
@@ -44,7 +46,7 @@
 //$$
 //$$     /**
 //$$      * Redirects the invocations of {@link org.lwjgl.opengl.LinuxKeyboard#openIM(long)} to my own
-//$$      * {@linkplain LinuxKeyboard#openIM(long) implementation}.
+//$$      * {@linkplain X11Input#openIm(X11.Display) implementation}.
 //$$      *
 //$$      * @param display The pointer to an X display connection.
 //$$      * @return The pointer to an X input method.
@@ -53,20 +55,22 @@
 //$$      */
 //$$     @Redirect(method = "<init>",
 //$$               at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/LinuxKeyboard;openIM(J)J"))
-//$$     private long redirect_init_INVOKE_openIM(long display)
+//$$     private long redirect__init__INVOKE_openIM(long display)
 //$$     {
-//$$         return X11Input.openIm(display);
+//$$         val im = X11Input.openIm(Display.of(new Pointer(display)));
+//$$         return Pointer.nativeValue(im.getPointer());
 //$$     }
 //$$
 //$$     /**
-//$$      * Injects the codes to initialise and register the {@link #guiHandler GuiHandler} event handler.
+//$$      * Injects the codes to initialise and register the {@link #guiHandler GuiHandler} event
+//$$      * handler.
 //$$      *
 //$$      * @param callback The information on the method call.
 //$$      *
 //$$      * @see org.lwjgl.opengl.LinuxKeyboard#LinuxKeyboard(long, long)
 //$$      */
 //$$     @Inject(method = "<init>", at = @At(value = "RETURN"))
-//$$     private void inject_init_RETURN(CallbackInfo callback)
+//$$     private void inject__init__RETURN(CallbackInfo callback)
 //$$     {
 //$$         if (xic != 0)
 //$$         {

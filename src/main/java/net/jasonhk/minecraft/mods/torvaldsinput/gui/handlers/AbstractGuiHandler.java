@@ -17,6 +17,8 @@ import net.jasonhk.minecraft.mods.torvaldsinput.gui.events.TextFieldFocusChangeE
 
 public abstract class AbstractGuiHandler
 {
+    protected abstract void setInputFocus(boolean focused);
+
     @SuppressWarnings("DuplicateCondition")
     @SubscribeEvent
     public final void onGuiOpen(GuiOpenEvent event)
@@ -45,6 +47,4 @@ public abstract class AbstractGuiHandler
     {
         setInputFocus(event.isFocused());
     }
-
-    protected abstract void setInputFocus(boolean focused);
 }
