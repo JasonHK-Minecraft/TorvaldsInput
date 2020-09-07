@@ -199,6 +199,26 @@ minecraft {
                     }
                 }
             }
+
+            if (MINECRAFT.integer >= 11400)
+            {
+                data {
+                    workingDirectory project.file("run")
+
+                    // Recommended logging data for a userdev environment.
+                    property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+                    // Recommended logging level for the console.
+                    property "forge.logging.console.level", "debug"
+
+                    args "--mod", "torvaldsinput", "--all", "--output", file("src/generated/resources/")
+
+                    mods {
+                        torvaldsinput {
+                            source sourceSets.main
+                        }
+                    }
+                }
+            }
         }
     }
     else
@@ -297,6 +317,11 @@ dependencies {
 
     annotationProcessor "org.projectlombok:lombok:1.18.12"
     compileOnly "org.projectlombok:lombok:1.18.12"
+
+    if ((MINECRAFT.integer >= 11400) && (MINECRAFT.integer < 11600))
+    {
+        runtimeOnly files(new File(rootDir, "mods/io/github/lxgaming/MixinBootstrap/1.0.3/MixinBootstrap-1.0.3.jar"))
+    }
 }
 
 if (MINECRAFT.integer <= 10710)
